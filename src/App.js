@@ -1,27 +1,39 @@
 import { React, useState, useEffect } from "react";
-import logo from "./logo.svg";
-import { Counter } from "./features/counter/Counter";
+import { useSelector } from "react-redux";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+
 import "./App.css";
-const initTodos = [
+
+/* const initTodos = [
   {
     name: "call ",
     dueDate: new Date().toLocaleDateString(),
   },
-];
+]; */
+
 function App() {
-  const [todos, setTodos] = useState([]);
+  /* const [todos, setTodos] = useState([]);
   useEffect(() => {
     setTodos(initTodos);
     return () => {};
-  }, [todos]);
+  }, [todos]); */
   /* react hook (sconveniente in app grandi usare una store globale )*/
   return (
     <div className="App">
-      <header className="App-header">
-        {todos.map((todo) => (
+      {/*  {todos.map((todo) => (
           <li key={todo.name}>{todo.name}</li>
-        ))}
-      </header>
+        ))} */}
+      <Router>
+        <Navbar />
+        <Switch>
+          <Route path="/">Hello</Route>
+          <Route path="/hero">
+            <Hero />
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 }
