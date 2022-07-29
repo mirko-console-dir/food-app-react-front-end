@@ -28,7 +28,8 @@ function App() {
           <li key={todo.name}>{todo.name}</li>
         ))} */}
         <Router>
-          <Navbar />
+          {/*           <Navbar />
+           */}{" "}
           <Switch>
             <Route exact path="/">
               <Home />

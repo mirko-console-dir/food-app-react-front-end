@@ -1,13 +1,15 @@
 import React from "react";
 import Header from "./HeaderH";
+import Navbar from "./Navbar";
+
 const h = "home";
 const Home = () => {
   return (
     <>
-      <div className="row mt-5">
-        <h1>{h} lorem</h1>
+      <section id="section-1" className="section-1">
+        <Navbar />
         <Header />
-      </div>
+      </section>
     </>
   );
 };
