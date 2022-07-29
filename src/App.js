@@ -2,11 +2,9 @@ import { React, useState, useEffect } from "react";
 
 import { useSelector } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Jumb from "./components/Jumb";
-
-import Home from "./components/Home";
-
+import Navbar from "./components/homepage/Navbar";
+import Home from "./components/homepage/HomeLandingPage";
+import About from "./components/homepage/About";
 import "./App.css";
 
 /* const initTodos = [
@@ -35,8 +33,8 @@ function App() {
             <Route exact path="/">
               <Home />
             </Route>
-            <Route path="/hero">
-              <Jumb />
+            <Route path="/about">
+              <About />
             </Route>
           </Switch>
         </Router>
