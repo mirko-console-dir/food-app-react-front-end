@@ -1,8 +1,7 @@
 import React from "react";
 import Header from "./HeaderH";
-import Navbar from "./Navbar";
+import Navbar from "../navbars/Navbar";
 
-const h = "home";
 const Home = () => {
   return (
     <>

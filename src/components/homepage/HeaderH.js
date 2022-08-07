@@ -1,40 +1,48 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-// Cube
-let x = 0;
-let y = 20;
-let z = 0;
-
-const topXcontrol = () => {
-  let cube = document.querySelector(".cube");
-  cube.style.transform = `rotateX(${(x += 20)}deg) rotateY(${y}deg) rotateZ(${z}deg)`;
-};
-
-const botXcontrol = () => {
-  let cube = document.querySelector(".cube");
-  cube.style.transform = `rotateX(${(x -= 20)}deg) rotateY(${y}deg) rotateZ(${z}deg)`;
-};
-
-const leftYcontrol = () => {
-  let cube = document.querySelector(".cube");
-  cube.style.transform = `rotateX(${x}deg) rotateY(${(y -= 20)}deg) rotateZ(${z}deg) `;
-};
-
-const rightYcontrol = () => {
-  let cube = document.querySelector(".cube");
-  cube.style.transform = `rotateX(${x}deg) rotateY(${(y += 20)}deg) rotateZ(${z}deg) `;
-};
-
-const topZcontrol = () => {
-  let cube = document.querySelector(".cube");
-  cube.style.transform = `rotateX(${x}deg) rotateY(${y}deg) rotateZ(${(z -= 20)}deg) `;
-};
-
-const botZcontrol = () => {
-  let cube = document.querySelector(".cube");
-  cube.style.transform = `rotateX(${x}deg) rotateY(${y}deg) rotateZ(${(z += 20)}deg) `;
-};
 const HeaderH = () => {
+  // Cube
+  let x = 0;
+  let y = 20;
+  let z = 0;
+  let cube = document.querySelector(".cube");
+
+  /* conrtols */
+  const topXcontrol = () => {
+    cube.style.transform = `rotateX(${(x += 20)}deg) rotateY(${y}deg) rotateZ(${z}deg)`;
+  };
+  const botXcontrol = () => {
+    cube.style.transform = `rotateX(${(x -= 20)}deg) rotateY(${y}deg) rotateZ(${z}deg)`;
+  };
+  const leftYcontrol = () => {
+    cube.style.transform = `rotateX(${x}deg) rotateY(${(y -= 20)}deg) rotateZ(${z}deg) `;
+  };
+  const rightYcontrol = () => {
+    cube.style.transform = `rotateX(${x}deg) rotateY(${(y += 20)}deg) rotateZ(${z}deg) `;
+  };
+  const topZcontrol = () => {
+    cube.style.transform = `rotateX(${x}deg) rotateY(${y}deg) rotateZ(${(z -= 20)}deg) `;
+  };
+  const botZcontrol = () => {
+    cube.style.transform = `rotateX(${x}deg) rotateY(${y}deg) rotateZ(${(z += 20)}deg) `;
+  };
+  /* conrtols */
+  /* autoplay */
+  const [isAutoplay, setAutoplay] = useState(false);
+  useEffect(() => {
+    setAutoplay(true);
+    let interval;
+    const play = () => {
+      if (isAutoplay) {
+        interval = setInterval(() => {
+          cube.style.transform = `rotateX(${x}deg) rotateY(${y++}deg) rotateZ(${z}deg)`;
+        }, 100);
+      } else {
+        clearInterval(interval);
+      }
+    };
+    play();
+  }, [isAutoplay]);
   return (
     <>
       {/* Cube */}
@@ -47,7 +55,7 @@ const HeaderH = () => {
             <i className="fab fa-apple" />
           </div>
         </div>
-        {/* Controls for movement*/}
+        {/* Controls for twist*/}
         <div className="controls">
           <a onClick={() => topXcontrol()} href="#" className="top-x-control">
             <i className="fas fa-arrow-up " />
