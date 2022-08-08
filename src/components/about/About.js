@@ -1,6 +1,7 @@
 import Navbar from "../navbars/Navbar";
 
 const About = () => {
+  console.log("About");
   return (
     <>
       <Navbar />
