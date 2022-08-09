@@ -50,13 +50,13 @@ const HeaderH = () => {
   useEffect(() => {
     setSlideShow(true);
     /* CREATE show */
-    const divs = document.querySelectorAll(".slideshow div");
-    let a = 0;
     const slideshow = () => {
       if (slideShow) {
+        let a = 0;
         setInterval(() => {
           a++;
           const div = document.querySelector(".slideshow .change");
+          const divs = document.querySelectorAll(".slideshow div");
           div.classList.remove("change");
           if (a < divs.length && div.nextElementSibling) {
             div.nextElementSibling.classList.add("change");
@@ -64,7 +64,7 @@ const HeaderH = () => {
             divs[0].classList.add("change");
             a = 0;
           }
-        }, 7000);
+        }, 6000);
         console.log("change");
         /* remove/add class change  */
       }
@@ -87,36 +87,48 @@ const HeaderH = () => {
         </div>
         {/* Controls for twist*/}
         <div className="controls">
-          <a onClick={() => topXcontrol()} href="#" className="top-x-control">
+          <button
+            onClick={() => topXcontrol()}
+            href="#"
+            className="bg-transparent top-x-control"
+          >
             <i className="fas fa-arrow-up " />
-          </a>
-          <a
+          </button>
+          <button
             onClick={() => botXcontrol()}
             href="#"
-            className="bottom-x-control"
+            className="bg-transparent bottom-x-control"
           >
             <i className="fas fa-arrow-down " />
-          </a>
-          <a onClick={() => leftYcontrol()} href="#" className="left-y-control">
+          </button>
+          <button
+            onClick={() => leftYcontrol()}
+            href="#"
+            className="bg-transparent left-y-control"
+          >
             <i className="fas fa-arrow-left " />
-          </a>
-          <a
+          </button>
+          <button
             onClick={() => rightYcontrol()}
             href="#"
-            className="right-y-control"
+            className="bg-transparent right-y-control"
           >
             <i className="fas fa-arrow-right " />
-          </a>
-          <a onClick={() => topZcontrol()} href="#" className="top-z-control">
+          </button>
+          <button
+            onClick={() => topZcontrol()}
+            href="#"
+            className="bg-transparent top-z-control"
+          >
             <i className="fas fa-arrow-down " />
-          </a>
-          <a
+          </button>
+          <button
             onClick={() => botZcontrol()}
             href="#"
-            className="bottom-z-control"
+            className="bg-transparent bottom-z-control"
           >
             <i className="fas fa-arrow-up " />
-          </a>
+          </button>
         </div>
         {/* End of Controls */}
       </div>

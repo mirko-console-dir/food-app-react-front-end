@@ -2,6 +2,10 @@ import React from "react";
 import Navbar from "../navbars/Navbar";
 import HeaderH from "./HeaderH";
 import SectionOverEffect from "./SectionOverEffect";
+import SectionLaptop from "./SectionLaptop";
+import SectionPersonalize from "./SectionPersonalize";
+import BannerHome from "./BannerHome";
+import Footer from "../Footer";
 
 const Home = () => {
   return (
@@ -13,6 +17,16 @@ const Home = () => {
       <section id="section-2" className="section-2">
         <SectionOverEffect />
       </section>
+      <section className="section-3 center" id="section-3">
+        <SectionLaptop />
+      </section>
+      <section className="section-4 center" id="section-4">
+        <SectionPersonalize />
+      </section>
+      <section className="section-5 center" id="section-5">
+        <BannerHome />
+      </section>
+      <Footer />
     </>
   );
 };
