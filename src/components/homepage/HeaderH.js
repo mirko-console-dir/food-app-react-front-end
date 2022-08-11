@@ -29,6 +29,7 @@ const HeaderH = () => {
 
   /* autoplay */
   const [isAutoplay, setAutoplay] = useState(false);
+
   useEffect(() => {
     setAutoplay(true);
     // Slideshow
@@ -43,6 +44,9 @@ const HeaderH = () => {
       }
     };
     play();
+    /* MEMO return run when component is unmounted */
+    return () => {};
+    /* old didMount if empty [] update didUpdate if [isAutoplay] change value useState */
   }, [isAutoplay]);
 
   /* slide class change */
@@ -64,14 +68,14 @@ const HeaderH = () => {
             divs[0].classList.add("change");
             a = 0;
           }
-        }, 6000);
+        }, 5000);
         console.log("change");
         /* remove/add class change  */
       }
     };
     slideshow();
-    // End of Slideshow
-  }, [slideShow]);
+    return () => {};
+  }, []);
 
   return (
     <>
