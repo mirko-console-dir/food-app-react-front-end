@@ -1,24 +1,18 @@
 import { React, useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+/* connect to connect a component to the file store */
+import { useSelector, connect } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Navbar from "./components/navbars/Navbar";
 import Home from "./components/homepage/HomeLandingPage";
 import About from "./components/about/About";
 import "./App.css";
+/* to display api */
+import { ToastContainer, toast } from "react-toastify";
 
-/* const initTodos = [
-  {
-    name: "call ",
-    dueDate: new Date().toLocaleDateString(),
-  },
-]; */
-
-function App() {
-  /* const [todos, setTodos] = useState([]);
-  useEffect(() => {
-    setTodos(initTodos);
+function App(props) {
+  console.log(props);
+  /* useEffect(() => {
     return () => {};
-  }, [todos]); */
+  }, []); */
   /* react hook (sconveniente in app grandi usare una store globale )*/
 
   return (
@@ -35,11 +29,23 @@ function App() {
             <Route path="/about">
               <About />
             </Route>
+            <ToastContainer
+              position="bottom-right"
+              autoClose={4000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            />
           </Switch>
         </Router>
       </div>
     </>
   );
 }
-
-export default App;
+/* connect(state ,action/payload/message to store) */
+/* now the App have access to the store's dispatch(send message to the store) e subscribe method  */
+export default connect()(App);
