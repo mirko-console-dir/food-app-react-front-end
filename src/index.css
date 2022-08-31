@@ -251,6 +251,25 @@ html {
 }
 /* End of Controls */
 /* End of Cube */
+/* form products */
+.section-4 {
+  position: relative;
+}
+.check-position {
+  color: transparent;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 35rem;
+  height: 35rem;
+}
+.form-products form {
+  position: absolute;
+  top: 20vh;
+  right: 5vw;
+}
+/* form products */
 
 /* Banner */
 .section-1-banner {

@@ -1,7 +1,34 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 const SectionPersonalize = () => {
+  const imgUrlProducts = "http://127.0.0.1:8000/storage/images/products/";
+  const url = "http://127.0.0.1:8000/api/products";
+  const [products, setProducts] = useState([]);
+
+  const check = useRef();
+
+  /* const dist = Math.hypot(box.x - prod.x, box.y - prod.y);
+  console.log(dist); */
+
+  const checkPosition = () => {
+    /* define where is check */
+    const boxPosition = document.querySelector(".check-position");
+    /* get data position */
+    const rect = boxPosition.getBoundingClientRect();
+    const productsAll = document.querySelectorAll(".product");
+    productsAll.forEach((product) => {
+      const nameProd = product.children[2].innerText;
+      /*  console.log(nameProd);
+      console.log(rect.x, rect.y); */
+      const rectProd = product.getBoundingClientRect();
+      /* console.log(rectProd.x, rectProd.y); */
+      if (rect.x === rectProd.x && rect.y === rectProd.y) {
+        console.log("nome prodotto" + nameProd);
+      }
+    });
+  };
+
   let axisY = 0;
   let axisX = 0;
   const hideControl = () => {
@@ -14,18 +41,16 @@ const SectionPersonalize = () => {
     } else {
       watchTopControl.classList.remove("hideControl");
     }
-    if (axisY === 280) {
+    if (axisY === 350) {
       watchBottomControl.classList.add("hideControl");
     } else {
       watchBottomControl.classList.remove("hideControl");
     }
-
     if (axisX === 280) {
       watchRightControl.classList.add("hideControl");
     } else {
       watchRightControl.classList.remove("hideControl");
     }
-
     if (axisX === -280) {
       watchLeftControl.classList.add("hideControl");
     } else {
@@ -35,110 +60,110 @@ const SectionPersonalize = () => {
   const topControl = () => {
     const watchCases = document.querySelector(".watch-cases");
     watchCases.style.marginTop = `${(axisY -= 70)}rem`;
+    setTimeout(() => {
+      checkPosition();
+    }, 2000);
     hideControl();
   };
   const bottomControl = () => {
     const watchCases = document.querySelector(".watch-cases");
     watchCases.style.marginTop = `${(axisY += 70)}rem`;
+    setTimeout(() => {
+      checkPosition();
+    }, 2000);
+
     hideControl();
   };
   const rightControl = () => {
     const watchBands = document.querySelector(".watch-bands");
     watchBands.style.marginRight = `${(axisX += 70)}rem`;
+    setTimeout(() => {
+      checkPosition();
+    }, 2000);
+
     hideControl();
   };
-
   const leftControl = () => {
     const watchBands = document.querySelector(".watch-bands");
     watchBands.style.marginRight = `${(axisX -= 70)}rem`;
+    setTimeout(() => {
+      checkPosition();
+    }, 2000);
     hideControl();
   };
 
+  useEffect(() => {
+    fetch(url)
+      .then((res) => res.json())
+      .then((products) => {
+        setProducts(products);
+      });
+    /* set distance rendering */
+    const watchBands = document.querySelector(".watch-bands");
+    if (watchBands?.childElementCount % 2 === 0) {
+      watchBands.style.marginLeft = "35rem";
+    }
+    /* set distance rendering */
+
+    return () => {};
+  }, []);
   return (
     <>
       <div className="watches center">
         {/* Watch Bands */}
         <div className="watch-bands center">
-          <img
-            src="images/watches/watch-band-1.jpg"
-            className="watch-band-img"
-          />
-          <img
-            src="images/watches/watch-band-2.jpg"
-            className="watch-band-img"
-          />
-          <img
-            src="images/watches/watch-band-3.jpg"
-            className="watch-band-img"
-          />
-          <img
-            src="images/watches/watch-band-4.jpg"
-            className="watch-band-img"
-          />
-          <img
-            src="images/watches/watch-band-5.jpg"
-            className="watch-band-img"
-          />
-          <img
-            src="images/watches/watch-band-6.jpg"
-            className="watch-band-img"
-          />
-          <img
-            src="images/watches/watch-band-7.jpg"
-            className="watch-band-img"
-          />
-          <img
-            src="images/watches/watch-band-8.jpg"
-            className="watch-band-img"
-          />
-          <img
-            src="images/watches/watch-band-9.jpg"
-            className="watch-band-img"
-          />
+          {/* variants image.... */}
+          {products.map((product) =>
+            product.variants.map((variant) => (
+              <div className="" key={variant.id}>
+                <img
+                  src={imgUrlProducts + "variants/" + variant.image_primary}
+                  className="watch-band-img"
+                  alt="image_primary"
+                />
+                {/*  <div className="card-body">
+                  <h5 className="card-title">
+                    {variant.name} {variant.id}
+                  </h5>
+                  <p className="card-text">{variant.description}</p>
+                  <p className="card-text">{variant.price}</p>
+                </div> */}
+              </div>
+            ))
+          )}
         </div>
         {/* End of Watch Bands */}
+        {/* variants image.... */}
+        {/* Products images */}
         {/* Watch Cases */}
         <div className="watch-cases center">
-          <img
-            src="images/watches/watch-case-1.png"
-            className="watch-case-img"
-          />
-          <img
-            src="images/watches/watch-case-2.png"
-            className="watch-case-img"
-          />
-          <img
-            src="images/watches/watch-case-3.png"
-            className="watch-case-img"
-          />
-          <img
-            src="images/watches/watch-case-4.png"
-            className="watch-case-img"
-          />
-          <img
-            src="images/watches/watch-case-5.png"
-            className="watch-case-img"
-          />
-          <img
-            src="images/watches/watch-case-6.png"
-            className="watch-case-img"
-          />
-          <img
-            src="images/watches/watch-case-7.png"
-            className="watch-case-img"
-          />
-          <img
-            src="images/watches/watch-case-8.png"
-            className="watch-case-img"
-          />
-          <img
-            src="images/watches/watch-case-9.png"
-            className="watch-case-img"
-          />
+          {products.map((product) => (
+            <div className="product" key={product.id}>
+              <img
+                src={imgUrlProducts + product.image_primary}
+                className="watch-case-img"
+                alt="image_primadry"
+              />
+
+              <p style={{ display: "none" }}>{product.id}</p>
+              <p style={{ display: "none" }}>{product.name}</p>
+              <p style={{ display: "none" }}>{product.description}</p>
+              {/*  <div className="card-body">
+                <h5 className="card-title">
+                  {product.name} {product.id}
+                </h5>
+                <p className="card-text">{product.description}</p>
+                <p className="card-text">{product.category.name}</p>
+              </div> */}
+            </div>
+          ))}
         </div>
         {/* End of Watch Cases */}
       </div>
       {/* End of Section 4 Watches */}
+      <div ref={check} className="check-position">
+        check
+      </div>
       {/* Watch Controls */}
       <button
         onClick={() => topControl()}
@@ -165,6 +190,47 @@ const SectionPersonalize = () => {
         <i className="fas fa-angle-left" />
       </button>
       {/* End of Watch Controls */}
+      <div className="container form-products">
+        <form>
+          <div className="mb-3">
+            <label htmlFor="name" className="form-label">
+              Name product
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="name"
+              aria-describedby="emailHelp"
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="description" className="form-label">
+              Ingredients
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="description"
+              aria-describedby="emailHelp"
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="description" className="form-label">
+              Price
+            </label>
+            <input
+              type="number"
+              className="form-control"
+              id="price"
+              aria-describedby="emailHelp"
+            />
+          </div>
+
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
+        </form>
+      </div>
       {/* Watch Button */}
       <button className="watch-btn">Buy Now</button>
       {/* End of Watch Button */}
