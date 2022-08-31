@@ -11,7 +11,7 @@ const SectionPersonalize = () => {
   /* const dist = Math.hypot(box.x - prod.x, box.y - prod.y);
   console.log(dist); */
 
-  const checkPosition = () => {
+  const checkPositionProduct = () => {
     /* define where is check */
     const boxPosition = document.querySelector(".check-position");
     /* get data position */
@@ -24,7 +24,7 @@ const SectionPersonalize = () => {
       const rectProd = product.getBoundingClientRect();
       /* console.log(rectProd.x, rectProd.y); */
       if (rect.x === rectProd.x && rect.y === rectProd.y) {
-        console.log("nome prodotto" + nameProd);
+        console.log("nome prodotto:  " + nameProd);
       }
     });
   };
@@ -36,22 +36,26 @@ const SectionPersonalize = () => {
     const watchBottomControl = document.querySelector(".watch-bottom-control");
     const watchRightControl = document.querySelector(".watch-right-control");
     const watchLeftControl = document.querySelector(".watch-left-control");
-    if (axisY === -280) {
+    const productsAll = document.querySelectorAll(".product");
+    const variantsAll = document.querySelectorAll(".variant");
+    const hideProdBtn = productsAll?.length * 70;
+    const hideVariantBtn = variantsAll?.length * 70;
+    if (axisY === -hideProdBtn) {
       watchTopControl.classList.add("hideControl");
     } else {
       watchTopControl.classList.remove("hideControl");
     }
-    if (axisY === 350) {
+    if (axisY === hideProdBtn) {
       watchBottomControl.classList.add("hideControl");
     } else {
       watchBottomControl.classList.remove("hideControl");
     }
-    if (axisX === 280) {
+    if (axisX === hideVariantBtn) {
       watchRightControl.classList.add("hideControl");
     } else {
       watchRightControl.classList.remove("hideControl");
     }
-    if (axisX === -280) {
+    if (axisX === -hideVariantBtn) {
       watchLeftControl.classList.add("hideControl");
     } else {
       watchLeftControl.classList.remove("hideControl");
@@ -61,34 +65,32 @@ const SectionPersonalize = () => {
     const watchCases = document.querySelector(".watch-cases");
     watchCases.style.marginTop = `${(axisY -= 70)}rem`;
     setTimeout(() => {
-      checkPosition();
-    }, 2000);
+      checkPositionProduct();
+    }, 1100);
     hideControl();
   };
   const bottomControl = () => {
     const watchCases = document.querySelector(".watch-cases");
     watchCases.style.marginTop = `${(axisY += 70)}rem`;
     setTimeout(() => {
-      checkPosition();
-    }, 2000);
-
+      checkPositionProduct();
+    }, 1100);
     hideControl();
   };
   const rightControl = () => {
     const watchBands = document.querySelector(".watch-bands");
     watchBands.style.marginRight = `${(axisX += 70)}rem`;
     setTimeout(() => {
-      checkPosition();
-    }, 2000);
-
+      checkPositionProduct();
+    }, 1100);
     hideControl();
   };
   const leftControl = () => {
     const watchBands = document.querySelector(".watch-bands");
     watchBands.style.marginRight = `${(axisX -= 70)}rem`;
     setTimeout(() => {
-      checkPosition();
-    }, 2000);
+      checkPositionProduct();
+    }, 1100);
     hideControl();
   };
 
@@ -115,7 +117,7 @@ const SectionPersonalize = () => {
           {/* variants image.... */}
           {products.map((product) =>
             product.variants.map((variant) => (
-              <div className="" key={variant.id}>
+              <div className="variant" key={variant.id}>
                 <img
                   src={imgUrlProducts + "variants/" + variant.image_primary}
                   className="watch-band-img"
