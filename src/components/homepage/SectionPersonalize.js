@@ -28,6 +28,23 @@ const SectionPersonalize = () => {
       }
     });
   };
+  const checkPositionVariant = () => {
+    /* define where is check */
+    const boxPosition = document.querySelector(".check-position");
+    /* get data position */
+    const rect = boxPosition.getBoundingClientRect();
+    const variantsAll = document.querySelectorAll(".variant");
+    variantsAll.forEach((variant) => {
+      const nameVariant = variant.children[2].innerText;
+      /*  console.log(nameProd);
+      console.log(rect.x, rect.y); */
+      const rectProd = variant.getBoundingClientRect();
+      /* console.log(rectProd.x, rectProd.y); */
+      if (rect.x === rectProd.x && rect.y === rectProd.y) {
+        console.log("nome variant:  " + nameVariant);
+      }
+    });
+  };
 
   let axisY = 0;
   let axisX = 0;
@@ -81,7 +98,7 @@ const SectionPersonalize = () => {
     const watchBands = document.querySelector(".watch-bands");
     watchBands.style.marginRight = `${(axisX += 70)}rem`;
     setTimeout(() => {
-      checkPositionProduct();
+      checkPositionVariant();
     }, 1100);
     hideControl();
   };
@@ -89,7 +106,7 @@ const SectionPersonalize = () => {
     const watchBands = document.querySelector(".watch-bands");
     watchBands.style.marginRight = `${(axisX -= 70)}rem`;
     setTimeout(() => {
-      checkPositionProduct();
+      checkPositionVariant();
     }, 1100);
     hideControl();
   };
@@ -123,13 +140,11 @@ const SectionPersonalize = () => {
                   className="watch-band-img"
                   alt="image_primary"
                 />
-                {/*  <div className="card-body">
-                  <h5 className="card-title">
-                    {variant.name} {variant.id}
-                  </h5>
-                  <p className="card-text">{variant.description}</p>
-                  <p className="card-text">{variant.price}</p>
-                </div> */}
+
+                <p style={{ display: "none" }}>{variant.id}</p>
+                <p style={{ display: "none" }}>{variant.name}</p>
+                <p style={{ display: "none" }}>{variant.description}</p>
+                <p style={{ display: "none" }}>{variant.price}</p>
               </div>
             ))
           )}
