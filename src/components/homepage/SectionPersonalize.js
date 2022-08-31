@@ -3,13 +3,14 @@ import React, { useState, useEffect, useRef } from "react";
 
 const SectionPersonalize = () => {
   const imgUrlProducts = "http://127.0.0.1:8000/storage/images/products/";
-  const url = "http://127.0.0.1:8000/api/products";
+  const imgUrlVariants =
+    "http://127.0.0.1:8000/storage/images/products/variants/";
+  const urlProducts = "http://127.0.0.1:8000/api/products";
+  const urlVariants = "http://127.0.0.1:8000/api/variants";
   const [products, setProducts] = useState([]);
+  const [variants, setVariants] = useState([]);
 
   const check = useRef();
-
-  /* const dist = Math.hypot(box.x - prod.x, box.y - prod.y);
-  console.log(dist); */
 
   const checkPositionProduct = () => {
     /* define where is check */
@@ -112,15 +113,23 @@ const SectionPersonalize = () => {
   };
 
   useEffect(() => {
-    fetch(url)
+    fetch(urlProducts)
       .then((res) => res.json())
       .then((products) => {
         setProducts(products);
       });
+    fetch(urlVariants)
+      .then((res) => res.json())
+      .then((variants) => {
+        setVariants(variants);
+      });
     /* set distance rendering */
     const watchBands = document.querySelector(".watch-bands");
-    if (watchBands?.childElementCount % 2 === 0) {
+    /* fix distance */
+    if (watchBands?.childElementCount % 2 === 1) {
       watchBands.style.marginLeft = "35rem";
+    } else {
+      watchBands.style.marginLeft = "0";
     }
     /* set distance rendering */
 
@@ -132,22 +141,19 @@ const SectionPersonalize = () => {
         {/* Watch Bands */}
         <div className="watch-bands center">
           {/* variants image.... */}
-          {products.map((product) =>
-            product.variants.map((variant) => (
-              <div className="variant" key={variant.id}>
-                <img
-                  src={imgUrlProducts + "variants/" + variant.image_primary}
-                  className="watch-band-img"
-                  alt="image_primary"
-                />
-
-                <p style={{ display: "none" }}>{variant.id}</p>
-                <p style={{ display: "none" }}>{variant.name}</p>
-                <p style={{ display: "none" }}>{variant.description}</p>
-                <p style={{ display: "none" }}>{variant.price}</p>
-              </div>
-            ))
-          )}
+          {variants.map((variant) => (
+            <div className="variant" key={variant.id}>
+              <img
+                src={imgUrlVariants + variant.image_primary}
+                className="watch-band-img"
+                alt="image_primary"
+              />
+              <p style={{ display: "none" }}>{variant.id}</p>
+              <p style={{ display: "none" }}>{variant.name}</p>
+              <p style={{ display: "none" }}>{variant.description}</p>
+              <p style={{ display: "none" }}>{variant.price}</p>
+            </div>
+          ))}
         </div>
         {/* End of Watch Bands */}
         {/* variants image.... */}
@@ -165,6 +171,8 @@ const SectionPersonalize = () => {
               <p style={{ display: "none" }}>{product.id}</p>
               <p style={{ display: "none" }}>{product.name}</p>
               <p style={{ display: "none" }}>{product.description}</p>
+              <p style={{ display: "none" }}>{product.price}</p>
+
               {/*  <div className="card-body">
                 <h5 className="card-title">
                   {product.name} {product.id}
