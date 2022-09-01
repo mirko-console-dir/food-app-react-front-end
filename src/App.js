@@ -1,6 +1,7 @@
 import { React, useState, useEffect } from "react";
 /* connect to connect a component to the file store */
-import { useSelector, connect } from "react-redux";
+/* import { connect } from "react-redux"; */
+
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "./components/homepage/HomeLandingPage";
 import About from "./components/about/About";
@@ -8,8 +9,7 @@ import "./App.css";
 /* to display api */
 import { ToastContainer, toast } from "react-toastify";
 
-function App(props) {
-  console.log(props);
+function App() {
   /* useEffect(() => {
     return () => {};
   }, []); */
@@ -48,4 +48,4 @@ function App(props) {
 }
 /* connect(state ,action/payload/message to store) */
 /* now the App have access to the store's dispatch(send message to the store) e subscribe method  */
-export default connect()(App);
+export default /* connect() */ App;

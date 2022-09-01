@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from "react";
 import Navbar from "../navbars/Navbar";
-import Products from "../products/Products";
+import Products from "../../features/products/Products";
 
 const About = () => {
   console.log("About");

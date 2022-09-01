@@ -15,9 +15,6 @@ const Products = ({ products }) => {
                 {product.name} {product.id}
               </h5>
               <p className="card-text">{product.description}</p>
-              <a href="#" className="btn btn-primary">
-                Go somewhere
-              </a>
             </div>
           </div>
         ))}

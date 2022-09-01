@@ -552,6 +552,7 @@ html {
 .watch-cases {
   flex-direction: column;
   transition: margin-top 1s;
+  z-index: -1;
 }
 
 .watch-case-img {

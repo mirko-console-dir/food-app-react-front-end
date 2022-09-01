@@ -1,7 +1,13 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addProdMeal,
+  removeProdMeal,
+} from "../../features/products/customMealsSlice";
 
 const SectionPersonalize = () => {
+  /* sezione LARAVEL DB */
   const imgUrlProducts = "http://127.0.0.1:8000/storage/images/products/";
   const imgUrlVariants =
     "http://127.0.0.1:8000/storage/images/products/variants/";
@@ -9,6 +15,12 @@ const SectionPersonalize = () => {
   const urlVariants = "http://127.0.0.1:8000/api/variants";
   const [products, setProducts] = useState([]);
   const [variants, setVariants] = useState([]);
+  /* sezione LARAVEL DB */
+  /* select slice from state in store */
+  const customProd = useSelector((state) => state.productsMeal);
+  console.log(customProd);
+  /* initialize dispatch */
+  const dispatch = useDispatch();
 
   const check = useRef();
 
@@ -111,6 +123,9 @@ const SectionPersonalize = () => {
     }, 1100);
     hideControl();
   };
+  const manageClick = () => {
+    dispatch(addProdMeal({ name: "ciao" }));
+  };
 
   useEffect(() => {
     fetch(urlProducts)
@@ -132,7 +147,6 @@ const SectionPersonalize = () => {
       watchBands.style.marginLeft = "0";
     }
     /* set distance rendering */
-
     return () => {};
   }, []);
   return (
@@ -257,7 +271,13 @@ const SectionPersonalize = () => {
         </form>
       </div>
       {/* Watch Button */}
-      <button className="watch-btn">Buy Now</button>
+      <button
+        onClick={() => manageClick()}
+        className="text-white font-weight-bold watch-btn"
+      >
+        <i className="fas fa-angle-down" />
+        send to store
+      </button>
       {/* End of Watch Button */}
     </>
   );
