@@ -1,10 +1,23 @@
-/* eslint-disable jsx-a11y/alt-text */
 import React, { useState, useEffect, useRef } from "react";
+import { v4 as uuid } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addProdMeal,
   removeProdMeal,
-} from "../../features/products/customMealsSlice";
+} from "../../features/products/CustomMealsSlice";
+import CustomMeals from "../../features/products/CustomMeals";
+
+class NewMeal {
+  /* explicity prorieties in constructor for each new istance*/
+  constructor(id, name, price, image, description, id_prod) {
+    this.id = id;
+    this.name = name;
+    this.price = price;
+    this.image = image;
+    this.description = description;
+    this.id_prod = id_prod;
+  }
+}
 
 const SectionPersonalize = () => {
   /* sezione LARAVEL DB */
@@ -17,8 +30,8 @@ const SectionPersonalize = () => {
   const [variants, setVariants] = useState([]);
   /* sezione LARAVEL DB */
   /* select slice from state in store */
-  const customProd = useSelector((state) => state.productsMeal);
-  console.log(customProd);
+  const customProds = useSelector((state) => state.productsMeal);
+  console.log(customProds);
   /* initialize dispatch */
   const dispatch = useDispatch();
 
@@ -31,16 +44,39 @@ const SectionPersonalize = () => {
     const rect = boxPosition.getBoundingClientRect();
     const productsAll = document.querySelectorAll(".product");
     productsAll.forEach((product) => {
+      const imageProd = product.children[0].currentSrc;
+      const idProd = product.children[1].innerText;
       const nameProd = product.children[2].innerText;
+      const descriprionProd = product.children[3].innerText;
+      const priceProd = product.children[4].innerText;
       /*  console.log(nameProd);
       console.log(rect.x, rect.y); */
       const rectProd = product.getBoundingClientRect();
       /* console.log(rectProd.x, rectProd.y); */
       if (rect.x === rectProd.x && rect.y === rectProd.y) {
+        console.log("image prodotto:  " + imageProd);
         console.log("nome prodotto:  " + nameProd);
+        console.log("idProd :  " + idProd);
+        console.log("descriprionProd :  " + descriprionProd);
+        console.log("priceProd :  " + priceProd);
+
+        const n = new NewMeal(
+          customProds.length === 0
+            ? 0
+            : customProds.length === 1
+            ? 1
+            : customProds.length + 1,
+          nameProd,
+          Number(priceProd),
+          imageProd,
+          descriprionProd,
+          Number(idProd)
+        );
+        dispatch(addProdMeal(n));
       }
     });
   };
+
   const checkPositionVariant = () => {
     /* define where is check */
     const boxPosition = document.querySelector(".check-position");
@@ -94,17 +130,11 @@ const SectionPersonalize = () => {
   const topControl = () => {
     const watchCases = document.querySelector(".watch-cases");
     watchCases.style.marginTop = `${(axisY -= 70)}rem`;
-    setTimeout(() => {
-      checkPositionProduct();
-    }, 1100);
     hideControl();
   };
   const bottomControl = () => {
     const watchCases = document.querySelector(".watch-cases");
     watchCases.style.marginTop = `${(axisY += 70)}rem`;
-    setTimeout(() => {
-      checkPositionProduct();
-    }, 1100);
     hideControl();
   };
   const rightControl = () => {
@@ -122,9 +152,6 @@ const SectionPersonalize = () => {
       checkPositionVariant();
     }, 1100);
     hideControl();
-  };
-  const manageClick = () => {
-    dispatch(addProdMeal({ name: "ciao" }));
   };
 
   useEffect(() => {
@@ -186,7 +213,6 @@ const SectionPersonalize = () => {
               <p style={{ display: "none" }}>{product.name}</p>
               <p style={{ display: "none" }}>{product.description}</p>
               <p style={{ display: "none" }}>{product.price}</p>
-
               {/*  <div className="card-body">
                 <h5 className="card-title">
                   {product.name} {product.id}
@@ -232,6 +258,7 @@ const SectionPersonalize = () => {
       <div className="container form-products">
         <form>
           <div className="mb-3">
+            <CustomMeals />
             <label htmlFor="name" className="form-label">
               Name product
             </label>
@@ -264,7 +291,6 @@ const SectionPersonalize = () => {
               aria-describedby="emailHelp"
             />
           </div>
-
           <button type="submit" className="btn btn-primary">
             Submit
           </button>
@@ -272,11 +298,11 @@ const SectionPersonalize = () => {
       </div>
       {/* Watch Button */}
       <button
-        onClick={() => manageClick()}
+        onClick={() => checkPositionProduct()}
         className="text-white font-weight-bold watch-btn"
       >
         <i className="fas fa-angle-down" />
-        send to store
+        Scegli Prod
       </button>
       {/* End of Watch Button */}
     </>
