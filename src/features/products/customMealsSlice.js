@@ -10,8 +10,17 @@ export const customMealsSlice = createSlice({
     removeProdMeal(state, action) {
       state.filter((p) => p.id !== action.payload.id);
     },
+    addVariantMeal(state, action) {
+      state.forEach((m) => {
+        m.ingredients.push(action.payload);
+      });
+    },
+    resetCustomProds(state) {
+      state.pop();
+    },
   },
 });
 
-export const { addProdMeal, removeProdMeal } = customMealsSlice.actions;
+export const { addProdMeal, removeProdMeal, addVariantMeal, resetCustomProds } =
+  customMealsSlice.actions;
 export default customMealsSlice.reducer;

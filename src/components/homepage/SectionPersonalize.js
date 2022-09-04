@@ -4,18 +4,34 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addProdMeal,
   removeProdMeal,
+  addVariantMeal,
+  resetCustomProds,
 } from "../../features/products/CustomMealsSlice";
 import CustomMeals from "../../features/products/CustomMeals";
 
 class NewMeal {
   /* explicity prorieties in constructor for each new istance*/
-  constructor(id, name, price, image, description, id_prod) {
+  constructor(id, name, price, image, description, qty, id_prod, ingredients) {
     this.id = id;
     this.name = name;
     this.price = price;
     this.image = image;
     this.description = description;
+    this.qty = qty;
     this.id_prod = id_prod;
+    this.ingredients = [];
+  }
+}
+class VarMeal {
+  /* explicity prorieties in constructor for each new istance*/
+  constructor(id, name, price, image, description, qty, id_variant) {
+    this.id = id;
+    this.name = name;
+    this.price = price;
+    this.image = image;
+    this.description = description;
+    this.qty = qty;
+    this.id_variant = id_variant;
   }
 }
 
@@ -28,6 +44,7 @@ const SectionPersonalize = () => {
   const urlVariants = "http://127.0.0.1:8000/api/variants";
   const [products, setProducts] = useState([]);
   const [variants, setVariants] = useState([]);
+  const check = useRef();
   /* sezione LARAVEL DB */
   /* select slice from state in store */
   const customProds = useSelector((state) => state.productsMeal);
@@ -35,9 +52,7 @@ const SectionPersonalize = () => {
   /* initialize dispatch */
   const dispatch = useDispatch();
 
-  const check = useRef();
-
-  const checkPositionProduct = () => {
+  const guestConfirmProduct = () => {
     /* define where is check */
     const boxPosition = document.querySelector(".check-position");
     /* get data position */
@@ -54,12 +69,6 @@ const SectionPersonalize = () => {
       const rectProd = product.getBoundingClientRect();
       /* console.log(rectProd.x, rectProd.y); */
       if (rect.x === rectProd.x && rect.y === rectProd.y) {
-        console.log("image prodotto:  " + imageProd);
-        console.log("nome prodotto:  " + nameProd);
-        console.log("idProd :  " + idProd);
-        console.log("descriprionProd :  " + descriprionProd);
-        console.log("priceProd :  " + priceProd);
-
         const n = new NewMeal(
           customProds.length === 0
             ? 0
@@ -70,30 +79,71 @@ const SectionPersonalize = () => {
           Number(priceProd),
           imageProd,
           descriprionProd,
+          1,
           Number(idProd)
         );
-        dispatch(addProdMeal(n));
+        if (customProds.length > 0) {
+          dispatch(resetCustomProds());
+          dispatch(addProdMeal(n));
+        } else {
+          dispatch(addProdMeal(n));
+        }
       }
     });
   };
-
-  const checkPositionVariant = () => {
+  const guestConfirmVariant = () => {
     /* define where is check */
     const boxPosition = document.querySelector(".check-position");
     /* get data position */
     const rect = boxPosition.getBoundingClientRect();
     const variantsAll = document.querySelectorAll(".variant");
     variantsAll.forEach((variant) => {
+      const imageVar = variant.children[0].currentSrc;
+      const idVar = variant.children[1].innerText;
+      const nameVar = variant.children[2].innerText;
+      const descriprionVar = variant.children[3].innerText;
+      const priceVar = variant.children[4].innerText;
+      const rectVar = variant.getBoundingClientRect();
+      /* console.log(rectVar.x, rectVar.y); */
+      if (rect.x === rectVar.x && rect.y === rectVar.y) {
+        if (
+          customProds[0].ingredients[0] &&
+          customProds[0].ingredients[0].id_variant === Number(idVar)
+        ) {
+          customProds[0].ingredients[0].qty++;
+          console.log(customProds);
+        } else {
+          const v = new VarMeal(
+            customProds[0].ingredients.length === 0
+              ? 0
+              : customProds[0].ingredients.length === 1
+              ? 1
+              : customProds[0].ingredients.length + 1,
+            nameVar,
+            Number(priceVar),
+            imageVar,
+            descriprionVar,
+            1,
+            Number(idVar)
+          );
+          dispatch(addVariantMeal(v));
+        }
+      }
+    });
+  };
+
+  /* const checkPositionVariant = () => {
+    const boxPosition = document.querySelector(".check-position");
+    const rect = boxPosition.getBoundingClientRect();
+    const variantsAll = document.querySelectorAll(".variant");
+    variantsAll.forEach((variant) => {
       const nameVariant = variant.children[2].innerText;
-      /*  console.log(nameProd);
-      console.log(rect.x, rect.y); */
       const rectProd = variant.getBoundingClientRect();
-      /* console.log(rectProd.x, rectProd.y); */
       if (rect.x === rectProd.x && rect.y === rectProd.y) {
         console.log("nome variant:  " + nameVariant);
       }
     });
-  };
+  }; */
 
   let axisY = 0;
   let axisX = 0;
@@ -140,17 +190,13 @@ const SectionPersonalize = () => {
   const rightControl = () => {
     const watchBands = document.querySelector(".watch-bands");
     watchBands.style.marginRight = `${(axisX += 70)}rem`;
-    setTimeout(() => {
-      checkPositionVariant();
-    }, 1100);
+
     hideControl();
   };
   const leftControl = () => {
     const watchBands = document.querySelector(".watch-bands");
     watchBands.style.marginRight = `${(axisX -= 70)}rem`;
-    setTimeout(() => {
-      checkPositionVariant();
-    }, 1100);
+
     hideControl();
   };
 
@@ -298,12 +344,21 @@ const SectionPersonalize = () => {
       </div>
       {/* Watch Button */}
       <button
-        onClick={() => checkPositionProduct()}
+        onClick={() => guestConfirmVariant()}
+        className="text-white font-weight-bold watch-btn"
+        style={{ marginBottom: "10em" }}
+      >
+        <i className="fas fa-angle-down" />
+        Scegli Variante per prodotto
+      </button>
+      <button
+        onClick={() => guestConfirmProduct()}
         className="text-white font-weight-bold watch-btn"
       >
         <i className="fas fa-angle-down" />
         Scegli Prod
       </button>
+
       {/* End of Watch Button */}
     </>
   );
