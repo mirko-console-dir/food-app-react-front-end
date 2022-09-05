@@ -1,13 +1,16 @@
-import React from "react";
+import { React, useEffect } from "react";
+
 import { useSelector } from "react-redux";
 
-const CustomMeals = ({}) => {
+const CustomMeals = () => {
   const customMeals = useSelector((state) => state.productsMeal);
+
   return (
     <>
       {customMeals.map((meal) => (
-        <div className="meal bg-primary" key={meal.id}>
+        <div className="meal " key={meal.id}>
           <p>{meal.name}</p>
+          {meal.ingredients?.map((ingredient) => ingredient.name)}
         </div>
       ))}
     </>

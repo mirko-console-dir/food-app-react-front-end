@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
-import { v4 as uuid } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addProdMeal,
   removeProdMeal,
-  addVariantMeal,
+  updateMeal,
   resetCustomProds,
 } from "../../features/products/CustomMealsSlice";
+import { addVarMeal } from "../../features/products/IngredientsMealSlice";
+
 import CustomMeals from "../../features/products/CustomMeals";
 
 class NewMeal {
@@ -36,7 +37,7 @@ class VarMeal {
 }
 
 const SectionPersonalize = () => {
-  /* sezione LARAVEL DB */
+  /* section LARAVEL DB */
   const imgUrlProducts = "http://127.0.0.1:8000/storage/images/products/";
   const imgUrlVariants =
     "http://127.0.0.1:8000/storage/images/products/variants/";
@@ -45,10 +46,12 @@ const SectionPersonalize = () => {
   const [products, setProducts] = useState([]);
   const [variants, setVariants] = useState([]);
   const check = useRef();
-  /* sezione LARAVEL DB */
+  /* section LARAVEL DB */
   /* select slice from state in store */
   const customProds = useSelector((state) => state.productsMeal);
   console.log(customProds);
+  const variantProds = useSelector((state) => state.ingredientsMeal);
+  console.log(variantProds);
   /* initialize dispatch */
   const dispatch = useDispatch();
 
@@ -92,27 +95,34 @@ const SectionPersonalize = () => {
     });
   };
   const guestConfirmVariant = () => {
-    /* define where is check */
+    /* define where is check and data about position*/
     const boxPosition = document.querySelector(".check-position");
-    /* get data position */
     const rect = boxPosition.getBoundingClientRect();
+    /*/// define where is check  and data about position */
+
     const variantsAll = document.querySelectorAll(".variant");
     variantsAll.forEach((variant) => {
+      /* variant data */
       const imageVar = variant.children[0].currentSrc;
       const idVar = variant.children[1].innerText;
       const nameVar = variant.children[2].innerText;
       const descriprionVar = variant.children[3].innerText;
       const priceVar = variant.children[4].innerText;
+      /*/// variant data */
+      /* variant position */
       const rectVar = variant.getBoundingClientRect();
-      /* console.log(rectVar.x, rectVar.y); */
+      /*/// variant position */
       if (rect.x === rectVar.x && rect.y === rectVar.y) {
+        /* CHECK QTY INGREDIENT */
         if (
           customProds[0].ingredients[0] &&
           customProds[0].ingredients[0].id_variant === Number(idVar)
         ) {
           customProds[0].ingredients[0].qty++;
           console.log(customProds);
+          /*/// CHECK QTY INGREDIENT */
         } else {
+          /* ADD INGREDIENT */
           const v = new VarMeal(
             customProds[0].ingredients.length === 0
               ? 0
@@ -126,7 +136,10 @@ const SectionPersonalize = () => {
             1,
             Number(idVar)
           );
-          dispatch(addVariantMeal(v));
+          dispatch(updateMeal(v));
+          dispatch(addVarMeal(v));
+
+          /*/// ADD INGREDIENT */
         }
       }
     });
