@@ -1,37 +1,49 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import CustomItemContainer from "../customItem/customItemContainer";
 import {
-  addProdMeal,
-  removeProdMeal,
-  updateMeal,
-  resetCustomProds,
-} from "../../features/products/CustomMealsSlice";
-import { addVarMeal } from "../../features/products/IngredientsMealSlice";
+  createCustomItem,
+  removeCustomItem,
+  addIngredient,
+} from "../../features/customItem/customItemSlice";
 
-import CustomMeals from "../../features/products/CustomMeals";
-
-class NewMeal {
+class CustomItem {
   /* explicity prorieties in constructor for each new istance*/
-  constructor(id, name, price, image, description, qty, id_prod, ingredients) {
+  constructor(
+    id,
+    name_prod,
+    price,
+    image,
+    description,
+    amount,
+    id_prod,
+    ingredients,
+    amountIngredients,
+    total,
+    isLoading
+  ) {
     this.id = id;
-    this.name = name;
+    this.name_prod = name_prod;
     this.price = price;
     this.image = image;
     this.description = description;
-    this.qty = qty;
+    this.amount = amount;
     this.id_prod = id_prod;
-    this.ingredients = [];
+    this.ingredients = ingredients;
+    this.amountIngredients = amountIngredients;
+    this.total = total;
+    this.isLoading = isLoading;
   }
 }
-class VarMeal {
+class Ingredient {
   /* explicity prorieties in constructor for each new istance*/
-  constructor(id, name, price, image, description, qty, id_variant) {
+  constructor(id, name_variant, price, image, description, amount, id_variant) {
     this.id = id;
-    this.name = name;
+    this.name_variant = name_variant;
     this.price = price;
     this.image = image;
     this.description = description;
-    this.qty = qty;
+    this.amount = amount;
     this.id_variant = id_variant;
   }
 }
@@ -48,10 +60,15 @@ const SectionPersonalize = () => {
   const check = useRef();
   /* section LARAVEL DB */
   /* select slice from state in store */
-  const customProds = useSelector((state) => state.productsMeal);
-  console.log(customProds);
-  const variantProds = useSelector((state) => state.ingredientsMeal);
-  console.log(variantProds);
+  const { cartItems } = useSelector((store) => store.cart);
+
+  const customItems = useSelector((store) => store.customItem.customItems);
+  const { ingredients } = useSelector((store) => store.customItem.customItems);
+
+  /* short version destructuration the object */
+  useEffect(() => {
+    console.log("ci");
+  }, [customItems, ingredients]);
   /* initialize dispatch */
   const dispatch = useDispatch();
 
@@ -71,29 +88,34 @@ const SectionPersonalize = () => {
       console.log(rect.x, rect.y); */
       const rectProd = product.getBoundingClientRect();
       /* console.log(rectProd.x, rectProd.y); */
+      /* CREATE PAYLOAD */
       if (rect.x === rectProd.x && rect.y === rectProd.y) {
-        const n = new NewMeal(
-          customProds.length === 0
+        const n = new CustomItem(
+          cartItems.length === 0
             ? 0
-            : customProds.length === 1
+            : cartItems.length === 1
             ? 1
-            : customProds.length + 1,
+            : cartItems.length + 1,
           nameProd,
           Number(priceProd),
           imageProd,
           descriprionProd,
           1,
-          Number(idProd)
+          Number(idProd),
+          [],
+          0,
+          Number(priceProd) * 1,
+          true
         );
-        if (customProds.length > 0) {
-          dispatch(resetCustomProds());
-          dispatch(addProdMeal(n));
-        } else {
-          dispatch(addProdMeal(n));
-        }
+        dispatch(createCustomItem(n));
       }
+      /* / CREATE PAYLOAD */
     });
   };
+  const removeCustom = () => {
+    dispatch(removeCustomItem());
+  };
+
   const guestConfirmVariant = () => {
     /* define where is check and data about position*/
     const boxPosition = document.querySelector(".check-position");
@@ -113,34 +135,23 @@ const SectionPersonalize = () => {
       const rectVar = variant.getBoundingClientRect();
       /*/// variant position */
       if (rect.x === rectVar.x && rect.y === rectVar.y) {
+        const v = new Ingredient(
+          customItems[0].ingredients.length === 0
+            ? 0
+            : customItems[0].ingredients.length === 1
+            ? 1
+            : customItems[0].ingredients.length + 1,
+          nameVar,
+          Number(priceVar),
+          imageVar,
+          descriprionVar,
+          1,
+          Number(idVar)
+        );
         /* CHECK QTY INGREDIENT */
-        if (
-          customProds[0].ingredients[0] &&
-          customProds[0].ingredients[0].id_variant === Number(idVar)
-        ) {
-          customProds[0].ingredients[0].qty++;
-          console.log(customProds);
-          /*/// CHECK QTY INGREDIENT */
-        } else {
-          /* ADD INGREDIENT */
-          const v = new VarMeal(
-            customProds[0].ingredients.length === 0
-              ? 0
-              : customProds[0].ingredients.length === 1
-              ? 1
-              : customProds[0].ingredients.length + 1,
-            nameVar,
-            Number(priceVar),
-            imageVar,
-            descriprionVar,
-            1,
-            Number(idVar)
-          );
-          dispatch(updateMeal(v));
-          dispatch(addVarMeal(v));
-
-          /*/// ADD INGREDIENT */
-        }
+        /* ADD INGREDIENT */
+        dispatch(addIngredient(v));
+        /*/// ADD INGREDIENT */
       }
     });
   };
@@ -316,8 +327,9 @@ const SectionPersonalize = () => {
       {/* End of Watch Controls */}
       <div className="container form-products">
         <form>
+          <CustomItemContainer />
+
           <div className="mb-3">
-            <CustomMeals />
             <label htmlFor="name" className="form-label">
               Name product
             </label>
@@ -358,7 +370,7 @@ const SectionPersonalize = () => {
       {/* Watch Button */}
       <button
         onClick={() => guestConfirmVariant()}
-        className="text-white font-weight-bold watch-btn"
+        className="text-white bg-primary font-weight-bold watch-btn"
         style={{ marginBottom: "10em" }}
       >
         <i className="fas fa-angle-down" />
@@ -366,10 +378,18 @@ const SectionPersonalize = () => {
       </button>
       <button
         onClick={() => guestConfirmProduct()}
-        className="text-white font-weight-bold watch-btn"
+        className="text-white bg-primary font-weight-bold watch-btn"
       >
         <i className="fas fa-angle-down" />
         Scegli Prod
+      </button>
+      <button
+        onClick={() => removeCustom()}
+        className="text-white bg-primary font-weight-bold watch-btn"
+        style={{ marginBottom: "5em" }}
+      >
+        <i className="fas fa-angle-down" />
+        Remove custom
       </button>
 
       {/* End of Watch Button */}
