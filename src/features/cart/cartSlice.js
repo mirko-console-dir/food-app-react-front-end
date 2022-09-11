@@ -1,7 +1,8 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 import axios from "axios";
-import cartItems from "../../cartItemsTest";
-import { openModal } from "../modalCart/modalSlice";
+import { getCartItems, removeCartItem } from "./thunkCartItems";
+/* import cartItems from "../../cartItemsTest";
+ */ import { openModal } from "../modalCart/modalSlice";
 
 /* version withou thunk
     const initialState = {
@@ -11,41 +12,13 @@ import { openModal } from "../modalCart/modalSlice";
   isLoading: true, //eventualy from the api
 }; */
 const initialState = {
-  cartItems,
-  amountItems: cartItems.length,
+  cartItems: [],
+  amountItems: 0,
   total: 0,
   isLoading: true,
 };
 /* use Api thunk to get items initialState */
-const url = "https://course-api.com/react-useReducer-cart-project";
-
-export const getCartItems = createAsyncThunk(
-  "cart/getCartItems",
-  /* version without axios
-  () => {
-    return fetch(url)
-      .then((response) => response.json())
-      .catch((err) => console.log(err));
-  } */
-  async (name, thunkAPI) => {
-    /* in the consol.log we can see the argument passed from the component that use this func getCartItems*/
-    console.log(name);
-    console.log(thunkAPI);
-    /* here we have access to all the dispatch options */
-    // console.log(thunkAPI.dispatch(openModal()));
-    /* we can get any value from all the rest of the features.
-    Image if u have an user feature to setUp your async action you can access it .getState().
-    I can setup the user in a different features and I can access with the thunkAPI  */
-    console.log(thunkAPI.getState());
-
-    try {
-      const resp = await axios(cartItems);
-      return resp.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue("something went wrong");
-    }
-  }
-);
+/* const url = "https://course-api.com/react-useReducer-cart-project"; */
 
 export const cartSlice = createSlice({
   name: "cart",
@@ -79,12 +52,12 @@ export const cartSlice = createSlice({
     },
   },
   /* with createSlice setup extraReducers object to access in the lifecycle actions promise pending - fillfield - reject  */
-  extraReducers: {
-    [getCartItems.pending]: (state) => {
+  extraReducers: (builder) => {
+    /*   [getCartItems.pending]: (state) => {
       state.isLoading = true;
     },
     [getCartItems.fulfilled]: (state, action) => {
-      console.log(action); //  case if we have data from fetch ;
+      console.log(action.payload); //  case if we have data from fetch ;
       state.isLoading = false;
       state.cartItems = action.payload;
     },
@@ -92,9 +65,31 @@ export const cartSlice = createSlice({
       // console.log(action) case if we have error from fetch axios;
       console.log(action);
       state.isLoading = false;
-    },
+    }, */
+    builder.addCase(getCartItems.pending, (state) => {
+      state.isLoading = true;
+      /*       return state + action.payload
+       */
+    });
+    builder.addCase(getCartItems.fulfilled, (state, action) => {
+      console.log(action.payload); //  case if we have data from fetch ;
+      state.isLoading = false;
+      state.cartItems = action.payload;
+    });
+    builder.addCase(getCartItems.rejected, (state, action) => {
+      console.log(action);
+      state.isLoading = false;
+    });
+    builder.addCase(removeCartItem.fulfilled, (state, action) => {
+      state.cartItems.filter((ele) => ele.id !== action.payload.id);
+    });
+    /*   [removeCartItem.fulfilled]: (state, action) => {
+      state.filter((ele) => ele.id !== action.payload.id);
+    }, */
   },
 });
 export const { clearCart, removeItem, increase, decrease, calculateTotals } =
   cartSlice.actions;
+/* reexprt for the About component that import */
+export { getCartItems, removeCartItem };
 export default cartSlice.reducer;
