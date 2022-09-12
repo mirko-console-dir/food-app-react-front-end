@@ -87,6 +87,7 @@ export const cartSlice = createSlice({
       /* console.log(action.payload.json); */
       state.cartItems.push(action.payload);
     });
+
     /*   [removeCartItem.fulfilled]: (state, action) => {
       state.filter((ele) => ele.id !== action.payload.id);
     }, */
