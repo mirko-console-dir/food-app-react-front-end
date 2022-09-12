@@ -68,6 +68,42 @@
       "amountIngredients": 2,
       "total": 5,
       "isLoading": true
+    },
+    {
+      "id": 6,
+      "name_prod": "Dusii",
+      "price": 4,
+      "image": "http://127.0.0.1:8000/storage/images/products/basilico.jpg",
+      "description": "asd",
+      "amount": 1,
+      "id_prod": 2,
+      "ingredients": [],
+      "amountIngredients": 0,
+      "total": 4,
+      "isLoading": true
+    },
+    {
+      "id": 4,
+      "name_prod": "Dusii",
+      "price": 4,
+      "image": "http://127.0.0.1:8000/storage/images/products/basilico.jpg",
+      "description": "asd",
+      "amount": 1,
+      "id_prod": 2,
+      "ingredients": [
+        {
+          "id": 0,
+          "name_variant": "Mushroom",
+          "price": 1,
+          "image": "http://127.0.0.1:8000/storage/images/products/variants/mushrooms.png",
+          "description": "Mush",
+          "amount": 1,
+          "id_variant": 5
+        }
+      ],
+      "amountIngredients": 0,
+      "total": 4,
+      "isLoading": true
     }
   ]
 }

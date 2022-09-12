@@ -19,7 +19,7 @@ const About = () => {
   /* we can pass an argument 'random' to the asynckThunck call in cartSlice */
   useEffect(() => {
     dispatch(getCartItems("random"));
-  }, [dispatch]);
+  }, []);
 
   if (isLoading) {
     return (

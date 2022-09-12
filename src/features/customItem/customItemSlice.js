@@ -1,6 +1,5 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import { openModal } from "../modalCart/modalSlice";
+import { createSlice, current } from "@reduxjs/toolkit";
+import { addCartItem } from "../../features/cart/thunkCartItems";
 
 const initialState = {
   customItems: [],
@@ -53,22 +52,6 @@ export const customItemSlice = createSlice({
       state.total = total;
     }, */
   },
-  /* with createSlice setup extraReducers object to access in the lifecycle actions promise pending - fillfield - reject  */
-  /*  extraReducers: {
-    [getCartItems.pending]: (state) => {
-      state.isLoading = true;
-    },
-    [getCartItems.fulfilled]: (state, action) => {
-      console.log(action); //  case if we have data from fetch ;
-      state.isLoading = false;
-      state.ingredients = action.payload;
-    },
-    [getCartItems.rejected]: (state, action) => {
-      // console.log(action) case if we have error from fetch axios;
-      console.log(action);
-      state.isLoading = false;
-    },
-  }, */
 });
 export const {
   createCustomItem,

@@ -6,6 +6,7 @@ import {
   removeCustomItem,
   addIngredient,
 } from "../../features/customItem/customItemSlice";
+import { addCartItem } from "../../features/cart/cartSlice";
 
 class CustomItem {
   /* explicity prorieties in constructor for each new istance*/
@@ -61,14 +62,8 @@ const SectionPersonalize = () => {
   /* section LARAVEL DB */
   /* select slice from state in store */
   const { cartItems } = useSelector((store) => store.cart);
-
   const customItems = useSelector((store) => store.customItem.customItems);
-  const { ingredients } = useSelector((store) => store.customItem.customItems);
 
-  /* short version destructuration the object */
-  useEffect(() => {
-    console.log("ci");
-  }, [customItems, ingredients]);
   /* initialize dispatch */
   const dispatch = useDispatch();
 
@@ -95,7 +90,7 @@ const SectionPersonalize = () => {
             ? 0
             : cartItems.length === 1
             ? 1
-            : cartItems.length + 1,
+            : cartItems.length,
           nameProd,
           Number(priceProd),
           imageProd,
@@ -107,11 +102,13 @@ const SectionPersonalize = () => {
           Number(priceProd) * 1,
           true
         );
+
         dispatch(createCustomItem(n));
       }
       /* / CREATE PAYLOAD */
     });
   };
+
   const removeCustom = () => {
     dispatch(removeCustomItem());
   };
@@ -140,7 +137,7 @@ const SectionPersonalize = () => {
             ? 0
             : customItems[0].ingredients.length === 1
             ? 1
-            : customItems[0].ingredients.length + 1,
+            : customItems[0].ingredients.length,
           nameVar,
           Number(priceVar),
           imageVar,
@@ -156,18 +153,12 @@ const SectionPersonalize = () => {
     });
   };
 
-  /* const checkPositionVariant = () => {
-    const boxPosition = document.querySelector(".check-position");
-    const rect = boxPosition.getBoundingClientRect();
-    const variantsAll = document.querySelectorAll(".variant");
-    variantsAll.forEach((variant) => {
-      const nameVariant = variant.children[2].innerText;
-      const rectProd = variant.getBoundingClientRect();
-      if (rect.x === rectProd.x && rect.y === rectProd.y) {
-        console.log("nome variant:  " + nameVariant);
-      }
-    });
-  }; */
+  const submitProd = () => {
+    const prod = customItems[0];
+    console.log(prod);
+    dispatch(addCartItem(prod));
+    dispatch(removeCustomItem());
+  };
 
   let axisY = 0;
   let axisX = 0;
@@ -368,6 +359,7 @@ const SectionPersonalize = () => {
         </form>
       </div>
       {/* Watch Button */}
+
       <button
         onClick={() => guestConfirmVariant()}
         className="text-white bg-primary font-weight-bold watch-btn"
@@ -390,6 +382,14 @@ const SectionPersonalize = () => {
       >
         <i className="fas fa-angle-down" />
         Remove custom
+      </button>
+      <button
+        onClick={() => submitProd()}
+        className="text-white bg-secondary font-weight-bold watch-btn"
+        style={{ marginBottom: "30em" }}
+      >
+        <i className="fas fa-angle-down" />
+        Invia al carrello il prodotto
       </button>
 
       {/* End of Watch Button */}

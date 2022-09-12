@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 import axios from "axios";
-import { getCartItems, removeCartItem } from "./thunkCartItems";
+import { getCartItems, removeCartItem, addCartItem } from "./thunkCartItems";
 /* import cartItems from "../../cartItemsTest";
  */ import { openModal } from "../modalCart/modalSlice";
 
@@ -83,6 +83,10 @@ export const cartSlice = createSlice({
     builder.addCase(removeCartItem.fulfilled, (state, action) => {
       state.cartItems.filter((ele) => ele.id !== action.payload.id);
     });
+    builder.addCase(addCartItem.fulfilled, (state, action) => {
+      /* console.log(action.payload.json); */
+      state.cartItems.push(action.payload);
+    });
     /*   [removeCartItem.fulfilled]: (state, action) => {
       state.filter((ele) => ele.id !== action.payload.id);
     }, */
@@ -91,5 +95,5 @@ export const cartSlice = createSlice({
 export const { clearCart, removeItem, increase, decrease, calculateTotals } =
   cartSlice.actions;
 /* reexprt for the About component that import */
-export { getCartItems, removeCartItem };
+export { getCartItems, removeCartItem, addCartItem };
 export default cartSlice.reducer;

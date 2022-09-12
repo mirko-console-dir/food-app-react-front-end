@@ -25,7 +25,7 @@ const CartContainer = () => {
       </header>
       <div>
         {/* {...item} to pass all the rest proprieties */}
-        {cartItems.map((item) => {
+        {cartItems?.map((item) => {
           return <CartItem key={item.id} {...item} />;
         })}
       </div>

@@ -33,7 +33,7 @@ const CartItem = ({
       <div>
         <h4>{name_prod}</h4>
         <h5>Ingredients:</h5>
-        {ingredients.map((ing) => (
+        {ingredients?.map((ing) => (
           <div className="dropdown" key={ing.id}>
             <button
               className="btn btn-secondary dropdown-toggle"
@@ -82,6 +82,7 @@ const CartItem = ({
           onClick={() => {
             if (amount === 1) {
               dispatch(removeItem(id));
+              dispatch(removeCartItem(id));
               return;
             }
             dispatch(decrease({ id }));
