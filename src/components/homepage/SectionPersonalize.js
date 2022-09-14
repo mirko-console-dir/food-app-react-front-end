@@ -6,7 +6,7 @@ import {
   removeCustomItem,
   addIngredient,
 } from "../../features/customItem/customItemSlice";
-import { addCartItem } from "../../features/cart/cartSlice";
+import { addCartItem, increase } from "../../features/cart/cartSlice";
 import { incrCartItem } from "../../features/cart/thunkCartItems";
 class CustomItem {
   /* explicity prorieties in constructor for each new istance*/
@@ -159,46 +159,50 @@ const SectionPersonalize = () => {
     const cartProds = cart.cartItems;
     const prod = customItems[0];
     let validation;
-    /* validation customProd ingredient with each cartItem ingredient */
+    let id;
+    /* Validation customProd ingredient with each cartItem ingredient */
     cartProds.forEach((cartPro) => {
       if (
         cartPro.id_prod === prod.id_prod &&
         prod.ingredients.length === cartPro.ingredients.length
       ) {
         /* ok same prod id and ingredients length*/
-        console.log("ok trovat val");
         const ingCartProd = cartPro.ingredients;
-        console.log(ingCartProd);
-        console.log("prod");
-        console.log(prod);
-
         const ingProd = prod.ingredients;
         /* every must be equals */
-        let indexIngProd = 0;
+        let arInC = [];
+        let arInP = [];
         ingCartProd.forEach((ing) => {
-          if (
-            ing.id_variant === ingProd[indexIngProd].id_variant &&
-            ing.amount === ingProd[indexIngProd].amount
-          )
-            console.log(ing.id_variant);
-          console.log(ingProd[indexIngProd].id_variant);
-          indexIngProd++;
+          let indexIngProd = 0;
+          for (let i = 0; i < ingProd.length; i++) {
+            if (
+              ing.id_variant === ingProd[indexIngProd].id_variant &&
+              ing.amount === ingProd[indexIngProd].amount
+            ) {
+              arInC.push(ing.id_variant);
+              arInP.push(ingProd[indexIngProd].id_variant);
+            }
+            indexIngProd++;
+          }
         });
+        if ((arInC = arInP)) {
+          validation = true;
+          id = cartPro.id;
+        }
       }
     });
+    /* / Validation customProd ingredient  */
     if (validation === true) {
       /* ok all ingredients are the same*/
-      console.log("ok trovat val secondo if se tr");
-      console.log("indpr");
-      console.log("score");
       console.log("goal");
-
+      console.log(id);
+      dispatch(increase({ id }));
+      dispatch(incrCartItem(id));
       /* validation customProd ingredient with each cartItem ingredient */
       dispatch(removeCustomItem());
     } else {
       dispatch(addCartItem(prod));
       dispatch(removeCustomItem());
-      window.location.reload();
     }
     /* const prod = customItems[0];
     console.log(prod);
