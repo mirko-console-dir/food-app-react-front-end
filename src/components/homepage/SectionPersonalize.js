@@ -7,7 +7,7 @@ import {
   addIngredient,
 } from "../../features/customItem/customItemSlice";
 import { addCartItem } from "../../features/cart/cartSlice";
-
+import { incrCartItem } from "../../features/cart/thunkCartItems";
 class CustomItem {
   /* explicity prorieties in constructor for each new istance*/
   constructor(
@@ -61,6 +61,7 @@ const SectionPersonalize = () => {
   const check = useRef();
   /* section LARAVEL DB */
   /* select slice from state in store */
+  const cart = useSelector((store) => store.cart);
   const { cartItems } = useSelector((store) => store.cart);
   const customItems = useSelector((store) => store.customItem.customItems);
 
@@ -68,6 +69,7 @@ const SectionPersonalize = () => {
   const dispatch = useDispatch();
 
   const guestConfirmProduct = () => {
+    dispatch(removeCustomItem());
     /* define where is check */
     const boxPosition = document.querySelector(".check-position");
     /* get data position */
@@ -154,10 +156,54 @@ const SectionPersonalize = () => {
   };
 
   const submitProd = () => {
+    const cartProds = cart.cartItems;
     const prod = customItems[0];
+    let validation;
+    /* validation customProd ingredient with each cartItem ingredient */
+    cartProds.forEach((cartPro) => {
+      if (
+        cartPro.id_prod === prod.id_prod &&
+        prod.ingredients.length === cartPro.ingredients.length
+      ) {
+        /* ok same prod id and ingredients length*/
+        console.log("ok trovat val");
+        const ingCartProd = cartPro.ingredients;
+        console.log(ingCartProd);
+        console.log("prod");
+        console.log(prod);
+
+        const ingProd = prod.ingredients;
+        /* every must be equals */
+        let indexIngProd = 0;
+        ingCartProd.forEach((ing) => {
+          if (
+            ing.id_variant === ingProd[indexIngProd].id_variant &&
+            ing.amount === ingProd[indexIngProd].amount
+          )
+            console.log(ing.id_variant);
+          console.log(ingProd[indexIngProd].id_variant);
+          indexIngProd++;
+        });
+      }
+    });
+    if (validation === true) {
+      /* ok all ingredients are the same*/
+      console.log("ok trovat val secondo if se tr");
+      console.log("indpr");
+      console.log("score");
+      console.log("goal");
+
+      /* validation customProd ingredient with each cartItem ingredient */
+      dispatch(removeCustomItem());
+    } else {
+      dispatch(addCartItem(prod));
+      dispatch(removeCustomItem());
+      window.location.reload();
+    }
+    /* const prod = customItems[0];
     console.log(prod);
     dispatch(addCartItem(prod));
-    dispatch(removeCustomItem());
+    dispatch(removeCustomItem()); */
   };
 
   let axisY = 0;

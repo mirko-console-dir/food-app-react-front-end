@@ -6,7 +6,7 @@
       "price": "399.99",
       "image": "https://dl.airtable.com/.attachments/64b266ad865098befbda3c3577a773c9/24497852/yedjpkwxljtb75t3tezl.png",
       "description": "asa fas 0",
-      "amount": 5,
+      "amount": 1,
       "id_prod": 6,
       "ingredients": [
         {
@@ -31,20 +31,35 @@
       "description": "asd",
       "amount": 1,
       "id_prod": 2,
-      "ingredients": [],
-      "amountIngredients": 0,
-      "total": 4,
-      "isLoading": true
-    },
-    {
-      "id": 2,
-      "name_prod": "Dusii",
-      "price": 4,
-      "image": "http://127.0.0.1:8000/storage/images/products/basilico.jpg",
-      "description": "asd",
-      "amount": 3,
-      "id_prod": 2,
-      "ingredients": [],
+      "ingredients": [
+        {
+          "id": 0,
+          "name_variant": "Mozzarella",
+          "price": 5,
+          "image": "http://127.0.0.1:8000/storage/images/products/variants/mozzarella.png",
+          "description": "Mozzarella dop",
+          "amount": 1,
+          "id_variant": 4
+        },
+        {
+          "id": 1,
+          "name_variant": "Mushroom",
+          "price": 1,
+          "image": "http://127.0.0.1:8000/storage/images/products/variants/mushrooms.png",
+          "description": "Mush",
+          "amount": 1,
+          "id_variant": 5
+        },
+        {
+          "id": 2,
+          "name_variant": "Basilico",
+          "price": 2,
+          "image": "http://127.0.0.1:8000/storage/images/products/variants/basil.png",
+          "description": "Basil",
+          "amount": 1,
+          "id_variant": 6
+        }
+      ],
       "amountIngredients": 0,
       "total": 4,
       "isLoading": true

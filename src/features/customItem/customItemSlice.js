@@ -21,14 +21,19 @@ export const customItemSlice = createSlice({
     },
     addIngredient: (state, action) => {
       if (state.customItems[0].ingredients.length > 0) {
+        let val;
         state.customItems[0].ingredients.forEach((item) => {
           if (item.id_variant === action.payload.id_variant) {
             item.amount = item.amount + 1;
           } else {
-            state.customItems[0].ingredients.push(action.payload);
+            val = true;
           }
         });
+        if (val === true) {
+          state.customItems[0].ingredients.push(action.payload);
+        }
       } else {
+        console.log("2 errrore");
         state.customItems[0].ingredients.push(action.payload);
       }
     },
