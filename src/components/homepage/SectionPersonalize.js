@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import CustomItemContainer from "../customItem/customItemContainer";
 import {
   createCustomItem,
+  calculateTotalsCustom,
   removeCustomItem,
   addIngredient,
 } from "../../features/customItem/customItemSlice";
@@ -38,13 +39,23 @@ class CustomItem {
 }
 class Ingredient {
   /* explicity prorieties in constructor for each new istance*/
-  constructor(id, name_variant, price, image, description, amount, id_variant) {
+  constructor(
+    id,
+    name_variant,
+    price,
+    image,
+    description,
+    amount,
+    total,
+    id_variant
+  ) {
     this.id = id;
     this.name_variant = name_variant;
     this.price = price;
     this.image = image;
     this.description = description;
     this.amount = amount;
+    this.total = total;
     this.id_variant = id_variant;
   }
 }
@@ -63,13 +74,14 @@ const SectionPersonalize = () => {
   /* select slice from state in store */
   const cart = useSelector((store) => store.cart);
   const { cartItems } = useSelector((store) => store.cart);
-  const customItems = useSelector((store) => store.customItem.customItems);
+  const { customItems } = useSelector((store) => store.customItem);
 
+  /* *******  to rerender dom */
   /* initialize dispatch */
   const dispatch = useDispatch();
 
   const guestConfirmProduct = () => {
-    dispatch(removeCustomItem());
+    /* dispatch(removeCustomItem()); */
     /* define where is check */
     const boxPosition = document.querySelector(".check-position");
     /* get data position */
@@ -101,18 +113,13 @@ const SectionPersonalize = () => {
           Number(idProd),
           [],
           0,
-          Number(priceProd) * 1,
+          Number(priceProd),
           true
         );
-
         dispatch(createCustomItem(n));
       }
       /* / CREATE PAYLOAD */
     });
-  };
-
-  const removeCustom = () => {
-    dispatch(removeCustomItem());
   };
 
   const guestConfirmVariant = () => {
@@ -145,11 +152,15 @@ const SectionPersonalize = () => {
           imageVar,
           descriprionVar,
           1,
+          Number(priceVar),
           Number(idVar)
         );
         /* CHECK QTY INGREDIENT */
         /* ADD INGREDIENT */
         dispatch(addIngredient(v));
+        dispatch(calculateTotalsCustom(customItems[0].price));
+        /* dispatch(calculateTotalsCustom(p)); */
+        /*  dipatch(total and amount ingredients state priceToTotalCustomItem amInggredients) */
         /*/// ADD INGREDIENT */
       }
     });
@@ -166,6 +177,9 @@ const SectionPersonalize = () => {
         cartPro.id_prod === prod.id_prod &&
         prod.ingredients.length === cartPro.ingredients.length
       ) {
+        if (cartPro.ingredients.length === 0) {
+          validation = true;
+        }
         /* ok same prod id and ingredients length*/
         const ingCartProd = cartPro.ingredients;
         const ingProd = prod.ingredients;
@@ -366,47 +380,10 @@ const SectionPersonalize = () => {
         <i className="fas fa-angle-left" />
       </button>
       {/* End of Watch Controls */}
-      <div className="container form-products">
-        <form>
+      <div className="container">
+        <div className="custom-items-container">
           <CustomItemContainer />
-
-          <div className="mb-3">
-            <label htmlFor="name" className="form-label">
-              Name product
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="name"
-              aria-describedby="emailHelp"
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="description" className="form-label">
-              Ingredients
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="description"
-              aria-describedby="emailHelp"
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="description" className="form-label">
-              Price
-            </label>
-            <input
-              type="number"
-              className="form-control"
-              id="price"
-              aria-describedby="emailHelp"
-            />
-          </div>
-          <button type="submit" className="btn btn-primary">
-            Submit
-          </button>
-        </form>
+        </div>
       </div>
       {/* Watch Button */}
 
@@ -426,7 +403,7 @@ const SectionPersonalize = () => {
         Scegli Prod
       </button>
       <button
-        onClick={() => removeCustom()}
+        onClick={() => dispatch(removeCustomItem())}
         className="text-white bg-primary font-weight-bold watch-btn"
         style={{ marginBottom: "5em" }}
       >

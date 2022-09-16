@@ -1,48 +1,120 @@
 import { ChevronDown, ChevronUp } from "../../icons/icons";
-import { removeItem, increase, decrease } from "../../features/cart/cartSlice";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-const CustomItem = (/* { id, img, title, price, amount } */) => {
+import {
+  removeCustomItem,
+  increaseCustomItem,
+  decreaseCustomItem,
+  increaseIngredientItem,
+  removeIngredient,
+} from "../../features/customItem/customItemSlice";
+
+const CustomItem = ({
+  id,
+  name_prod,
+  price,
+  image,
+  description,
+  amount,
+  id_prod,
+  ingredients,
+  amountIngredients,
+  total,
+}) => {
   const dispatch = useDispatch();
+
   return (
     <article className="cart-item">
-      {/*  <img src={img} alt={title} /> */}
+      <img src={image} alt={name_prod} />
       <div>
-        {/*  <h4>{title}</h4> */}
-        {/*   <h4 className="item-price">${price}</h4>
+        <h4>{name_prod}</h4>
+        <h4>${price}</h4>
+
+        <div>
+          <h5>Ingredients:</h5>
+          {ingredients?.map((ing) => (
+            <div className="dropdown" key={ing.id}>
+              <button
+                className="btn btn-secondary dropdown-toggle"
+                type="button"
+                id="dropdownMenu2"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                {ing.name_variant}
+              </button>
+              <div
+                className="dropdown-menu p-4 text-muted"
+                style={{ maxWidth: "200px" }}
+              >
+                <p>{ing.description}</p>
+                <h4 className="item-price">${ing.price}</h4>
+                <div>
+                  <button
+                    className="amount-btn"
+                    onClick={() => {
+                      increaseIngredientItem(ing.id);
+                    }}
+                  >
+                    <ChevronUp />
+                  </button>
+                  <p className="amount">{ing.amount} qty</p>{" "}
+                  {/*          check qtyamount to dispatch the right action
+                   */}{" "}
+                  <button
+                    className="amount-btn"
+                    onClick={() => {
+                      if (amount === 1) {
+                        dispatch(removeIngredient(ing.id));
+
+                        return;
+                      }
+                      dispatch(decreaseCustomItem(ing.id));
+                    }}
+                  >
+                    <ChevronDown />
+                  </button>
+                </div>
+                <p className="mb-0">Tot Ingr ${ing.total}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
         <button
           className="remove-btn"
           onClick={() => {
-            dispatch(removeItem(id));
+            dispatch(removeCustomItem());
           }}
         >
           remove
-        </button> */}
+        </button>
       </div>
       <div>
-        {/* <button
+        <button
           className="amount-btn"
           onClick={() => {
-            dispatch(increase({ id }));
+            dispatch(increaseCustomItem());
           }}
         >
           <ChevronUp />
-        </button> */}
-        {/*         <p className="amount">{amount}</p>
+        </button>
+        <p className="amount">{amount} qty</p>{" "}
+        {/*          check qtyamount to dispatch the right action
          */}{" "}
-        {/* check qtyamount to dispatch the right action */}
-        {/* <button
+        <button
           className="amount-btn"
           onClick={() => {
             if (amount === 1) {
-              dispatch(removeItem(id));
+              dispatch(removeCustomItem());
               return;
             }
-            dispatch(decrease({ id }));
+            dispatch(decreaseCustomItem());
           }}
         >
           <ChevronDown />
-        </button> */}
+        </button>
       </div>
     </article>
   );

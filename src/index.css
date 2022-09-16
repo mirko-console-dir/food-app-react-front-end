@@ -439,7 +439,7 @@ hr {
   width: 35rem;
   height: 35rem;
 }
-.form-products form {
+.custom-items-container {
   position: absolute;
   top: 20vh;
   right: 5vw;

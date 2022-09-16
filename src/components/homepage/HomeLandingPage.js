@@ -20,6 +20,7 @@ const Home = () => {
   useEffect(() => {
     dispatch(getCartItems("random"));
   }, []);
+
   return (
     <>
       <section id="section-1" className="section-1">
