@@ -123,6 +123,9 @@ const SectionPersonalize = () => {
   };
 
   const guestConfirmVariant = () => {
+    if (customItems[0].name_prod.length < 2) {
+      return alert("Please enter a product  before");
+    }
     /* define where is check and data about position*/
     const boxPosition = document.querySelector(".check-position");
     const rect = boxPosition.getBoundingClientRect();
