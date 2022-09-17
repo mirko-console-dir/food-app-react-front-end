@@ -3,7 +3,10 @@ import React, { useState, useEffect, useRef } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { removeCustomItem } from "../../features/customItem/customItemSlice";
+import {
+  removeCustomItem,
+  calculateTotalsCustom,
+} from "../../features/customItem/customItemSlice";
 import CustomItem from "./customItem";
 
 const CustomItemContainer = () => {

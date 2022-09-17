@@ -4,9 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 
 import {
   removeCustomItem,
+  calculateTotalsCustom,
   increaseCustomItem,
   decreaseCustomItem,
   increaseIngredientItem,
+  decreaseIngredientItem,
   removeIngredient,
 } from "../../features/customItem/customItemSlice";
 
@@ -23,6 +25,7 @@ const CustomItem = ({
   total,
 }) => {
   const dispatch = useDispatch();
+  const { customItems } = useSelector((store) => store.customItem);
 
   return (
     <article className="cart-item">
@@ -54,7 +57,8 @@ const CustomItem = ({
                   <button
                     className="amount-btn"
                     onClick={() => {
-                      increaseIngredientItem(ing.id);
+                      dispatch(increaseIngredientItem(ing.id));
+                      dispatch(calculateTotalsCustom(customItems[0].price));
                     }}
                   >
                     <ChevronUp />
@@ -65,12 +69,13 @@ const CustomItem = ({
                   <button
                     className="amount-btn"
                     onClick={() => {
-                      if (amount === 1) {
+                      if (ing.amount === 1) {
                         dispatch(removeIngredient(ing.id));
-
+                        dispatch(calculateTotalsCustom(customItems[0].price));
                         return;
                       }
-                      dispatch(decreaseCustomItem(ing.id));
+                      dispatch(decreaseIngredientItem(ing.id));
+                      dispatch(calculateTotalsCustom(customItems[0].price));
                     }}
                   >
                     <ChevronDown />
@@ -96,6 +101,7 @@ const CustomItem = ({
           className="amount-btn"
           onClick={() => {
             dispatch(increaseCustomItem());
+            dispatch(calculateTotalsCustom(customItems[0].price));
           }}
         >
           <ChevronUp />
@@ -111,6 +117,7 @@ const CustomItem = ({
               return;
             }
             dispatch(decreaseCustomItem());
+            dispatch(calculateTotalsCustom(customItems[0].price));
           }}
         >
           <ChevronDown />

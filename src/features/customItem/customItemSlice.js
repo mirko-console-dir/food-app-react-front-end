@@ -78,17 +78,26 @@ export const customItemSlice = createSlice({
         state.customItems[0].ingredients.push(action.payload);
       }
     },
-    removeIngredient: (state, action) => {},
-    increaseIngredientItem: (state, { payload }) => {
-      /*  const customItem = state.ingredients.find(
-        (item) => item.id === payload.id
-      );
-      console.log(customItem); */
-      /* customItem.amount = customItem.amount + 1;  */
+    removeIngredient: (state, action) => {
+      state.customItems[0].ingredients.splice(action.payload, 1);
     },
-    decreaseIngredientItem: (state, { payload }) => {
-      /* const customItem = state.ingredients.find((item) => item.id === payload.id);
-      customItem.amount = customItem.amount - 1;  */
+    increaseIngredientItem: (state, action) => {
+      let ing = {};
+      ing = state.customItems[0].ingredients[action.payload];
+      ing.amount = ing.amount + 1;
+      ing.total = ing.amount * ing.price;
+      state.customItems[0].ingredients.splice(action.payload, 1);
+      state.customItems[0].ingredients.push(ing);
+      state.customItems[0].ingredients.sort((a, b) => a.id - b.id);
+    },
+    decreaseIngredientItem: (state, action) => {
+      let ing = {};
+      ing = state.customItems[0].ingredients[action.payload];
+      ing.amount = ing.amount - 1;
+      ing.total = ing.amount * ing.price;
+      state.customItems[0].ingredients.splice(action.payload, 1);
+      state.customItems[0].ingredients.push(ing);
+      state.customItems[0].ingredients.sort((a, b) => a.id - b.id);
     },
     /* this to reactive the total customProd */
     calculateTotalsCustom: (state, action) => {
@@ -101,7 +110,8 @@ export const customItemSlice = createSlice({
       });
 
       state.customItems[0].total =
-        action.payload * state.customItems[0].amount + totIng;
+        action.payload * state.customItems[0].amount +
+        totIng * state.customItems[0].amount;
 
       console.log(action.payload);
     },
@@ -116,6 +126,7 @@ export const {
   createIngredient,
   addIngredient,
   increaseIngredientItem,
+  decreaseIngredientItem,
   removeIngredient,
 } = customItemSlice.actions;
 export default customItemSlice.reducer;
