@@ -100,7 +100,7 @@ const SectionPersonalize = () => {
       /* CREATE PAYLOAD */
       if (rect.x === rectProd.x && rect.y === rectProd.y) {
         const n = new CustomItem(
-          cartItems.length + 1,
+          cartItems.length === 0 ? 1 : cartItems.length + 1,
           nameProd,
           Number(priceProd),
           imageProd,
