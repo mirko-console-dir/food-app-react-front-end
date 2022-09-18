@@ -76,13 +76,10 @@ export const addCartItem = createAsyncThunk(
       Image if u have an user feature to setUp your async action you can access it .getState().
       I can setup the user in a different features and I can access with the thunkAPI  */
     console.log("ora api");
+    console.log(item);
 
     try {
       const resp = await axios.post(url + "/", item);
-      console.log("postata");
-      console.log(item);
-
-      console.log(resp);
       return resp.data;
     } catch (error) {
       return thunkAPI.rejectWithValue("something went wrong");

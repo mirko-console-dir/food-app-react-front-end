@@ -50,7 +50,7 @@ export const cartSlice = createSlice({
       let total = 0;
       state.cartItems.forEach((item) => {
         amount += item.amount;
-        total = item.total * item.amount;
+        total += item.total * item.amount;
       });
       state.amountItems = amount;
       state.total = total;
@@ -91,6 +91,10 @@ export const cartSlice = createSlice({
     builder.addCase(addCartItem.fulfilled, (state, action) => {
       /* console.log(action.payload.json); */
       state.cartItems.push(action.payload);
+    });
+    builder.addCase(addCartItem.rejected, (state, action) => {
+      /* console.log(action.payload.json); */
+      console.log(action);
     });
 
     builder.addCase(incrCartItem.rejected, (state, action) => {

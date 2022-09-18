@@ -100,11 +100,7 @@ const SectionPersonalize = () => {
       /* CREATE PAYLOAD */
       if (rect.x === rectProd.x && rect.y === rectProd.y) {
         const n = new CustomItem(
-          cartItems.length === 0
-            ? 0
-            : cartItems.length === 1
-            ? 1
-            : cartItems.length,
+          cartItems.length + 1,
           nameProd,
           Number(priceProd),
           imageProd,
@@ -172,7 +168,7 @@ const SectionPersonalize = () => {
   const submitProd = () => {
     const cartProds = cart.cartItems;
     const prod = customItems[0];
-    let validation;
+    let validation = false;
     let id;
     /* Validation customProd ingredient with each cartItem ingredient */
     cartProds.forEach((cartPro) => {
