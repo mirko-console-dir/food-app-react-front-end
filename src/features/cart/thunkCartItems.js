@@ -108,9 +108,22 @@ export const incrCartItem = createAsyncThunk(
     /* we can get any value from all the rest of the features.
       Image if u have an user feature to setUp your async action you can access it .getState().
       I can setup the user in a different features and I can access with the thunkAPI  */
-    const amountItems = thunkAPI.getState().cart.cartItems[id].amount;
+    console.log("id");
+    console.log(id);
+    const c = thunkAPI.getState().cart.cartItems.find((item) => item.id === id);
+
+    const amountItems = c.amount;
+    const totalItem = c.total;
+
+    /* const totalItem = thunkAPI.getState().cart.cartItems[id].total; */
+    console.log(amountItems);
     try {
-      const resp = await axios.patch(url + "/" + id, { amount: amountItems });
+      const resp = await axios.patch(url + "/" + id, {
+        amount: amountItems,
+        total: totalItem,
+      });
+      console.log("resp");
+
       console.log(resp);
       return resp.data;
     } catch (error) {
@@ -137,10 +150,15 @@ export const decrCartItem = createAsyncThunk(
     /* we can get any value from all the rest of the features.
       Image if u have an user feature to setUp your async action you can access it .getState().
       I can setup the user in a different features and I can access with the thunkAPI  */
-    console.log(thunkAPI.getState().cart);
-    const amountItems = thunkAPI.getState().cart.cartItems[id].amount;
+    const c = thunkAPI.getState().cart.cartItems.find((item) => item.id === id);
+
+    const amountItems = c.amount;
+    const totalItem = c.total;
     try {
-      const resp = await axios.patch(url + "/" + id, { amount: amountItems });
+      const resp = await axios.patch(url + "/" + id, {
+        amount: amountItems,
+        total: totalItem,
+      });
       console.log(resp);
       return resp.data;
     } catch (error) {

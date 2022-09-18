@@ -88,6 +88,7 @@ export const customItemSlice = createSlice({
       ing.total = ing.amount * ing.price;
       state.customItems[0].ingredients.splice(action.payload, 1);
       state.customItems[0].ingredients.push(ing);
+      /* sort return a NEW ARRAY */
       state.customItems[0].ingredients.sort((a, b) => a.id - b.id);
     },
     decreaseIngredientItem: (state, action) => {
@@ -97,6 +98,8 @@ export const customItemSlice = createSlice({
       ing.total = ing.amount * ing.price;
       state.customItems[0].ingredients.splice(action.payload, 1);
       state.customItems[0].ingredients.push(ing);
+
+      /* sort return a NEW ARRAY */
       state.customItems[0].ingredients.sort((a, b) => a.id - b.id);
     },
     /* this to reactive the total customProd */

@@ -6,7 +6,7 @@
       "price": 4,
       "image": "http://127.0.0.1:8000/storage/images/products/basilico.jpg",
       "description": "asd",
-      "amount": 1,
+      "amount": 2,
       "id_prod": 2,
       "ingredients": [
         {
@@ -15,13 +15,13 @@
           "price": 5,
           "image": "http://127.0.0.1:8000/storage/images/products/variants/mozzarella.png",
           "description": "Mozzarella dop",
-          "amount": 2,
-          "total": 10,
+          "amount": 1,
+          "total": 5,
           "id_variant": 4
         }
       ],
-      "amountIngredients": 2,
-      "total": 14,
+      "amountIngredients": 1,
+      "total": 9,
       "isLoading": true
     }
   ]
