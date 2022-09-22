@@ -8,12 +8,13 @@ import About from "./components/about/About";
 import "./App.css";
 /* to display api */
 import { ToastContainer, toast } from "react-toastify";
-
+import { useGetPurchasesQuery } from "./service/purchaseRTKservice";
 function App() {
   /* useEffect(() => {
     return () => {};
   }, []); */
   /* react hook (sconveniente in app grandi usare una store globale )*/
+  const { data: purchases = [], error, isLoading } = useGetPurchasesQuery();
 
   return (
     <>
@@ -27,7 +28,7 @@ function App() {
               <Home />
             </Route>
             <Route path="/about">
-              <About />
+              <About purchases={purchases} />
             </Route>
             <ToastContainer
               position="bottom-right"

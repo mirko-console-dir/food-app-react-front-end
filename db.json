@@ -2,89 +2,26 @@
   "cartItems": [
     {
       "id": 1,
-      "name_prod": "Dusii",
-      "price": 4,
-      "image": "http://127.0.0.1:8000/storage/images/products/basilico.jpg",
-      "description": "asd",
+      "name_prod": "Tuber",
+      "price": 3,
+      "image": "http://127.0.0.1:8000/storage/images/products/backgroundBase.png",
+      "description": "Strong Grain",
       "amount": 1,
       "id_prod": 2,
-      "ingredients": [],
-      "amountIngredients": 0,
-      "total": 4,
-      "isLoading": true
-    },
-    {
-      "id": 2,
-      "name_prod": "Cimmoe",
-      "price": 7,
-      "image": "http://127.0.0.1:8000/storage/images/products/backgroundBase.png",
-      "description": "as",
-      "amount": 1,
-      "id_prod": 3,
-      "ingredients": [],
-      "amountIngredients": 0,
+      "ingredients": [
+        {
+          "id": 0,
+          "name_variant": "Salame",
+          "price": 4,
+          "image": "http://127.0.0.1:8000/storage/images/products/variants/salame.png",
+          "description": "Salame DOP",
+          "amount": 1,
+          "total": 4,
+          "id_variant": 3
+        }
+      ],
+      "amountIngredients": 1,
       "total": 7,
-      "isLoading": true
-    },
-    {
-      "id": 3,
-      "name_prod": "Dusii",
-      "price": 4,
-      "image": "http://127.0.0.1:8000/storage/images/products/basilico.jpg",
-      "description": "asd",
-      "amount": 1,
-      "id_prod": 2,
-      "ingredients": [
-        {
-          "id": 0,
-          "name_variant": "Mozzarella",
-          "price": 5,
-          "image": "http://127.0.0.1:8000/storage/images/products/variants/mozzarella.png",
-          "description": "Mozzarella dop",
-          "amount": 1,
-          "total": 5,
-          "id_variant": 4
-        }
-      ],
-      "amountIngredients": 1,
-      "total": 9,
-      "isLoading": true
-    },
-    {
-      "id": 4,
-      "name_prod": "Cimmoe",
-      "price": 7,
-      "image": "http://127.0.0.1:8000/storage/images/products/backgroundBase.png",
-      "description": "as",
-      "amount": 1,
-      "id_prod": 3,
-      "ingredients": [
-        {
-          "id": 0,
-          "name_variant": "Mozzarella",
-          "price": 5,
-          "image": "http://127.0.0.1:8000/storage/images/products/variants/mozzarella.png",
-          "description": "Mozzarella dop",
-          "amount": 1,
-          "total": 5,
-          "id_variant": 4
-        }
-      ],
-      "amountIngredients": 1,
-      "total": 12,
-      "isLoading": true
-    },
-    {
-      "id": 5,
-      "name_prod": "Fit grain",
-      "price": 10,
-      "image": "http://127.0.0.1:8000/storage/images/products/baseu.png",
-      "description": "Salame pro",
-      "amount": 2,
-      "id_prod": 1,
-      "ingredients": [],
-      "amountIngredients": 0,
-      "total": 10,
       "isLoading": true
     }
   ]

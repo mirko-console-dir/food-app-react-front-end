@@ -175,7 +175,6 @@ Cart Item
   align-items: center;
   grid-template-columns: auto 1fr auto;
   grid-column-gap: 1.5rem;
-  margin: 1.5rem 0;
 }
 .cart-item img {
   width: 5rem;
@@ -259,6 +258,17 @@ hr {
   display: flex;
   justify-content: space-around;
 }
+.btn-success {
+  color: #198754 !important;
+  background-color: transparent !important;
+}
+.btn-success:hover {
+  color: white !important;
+  background-color: #198754 !important;
+}
+/* formPruchase */
+
+/* formPruchase */
 
 /* Cube */
 .cube-wrapper {

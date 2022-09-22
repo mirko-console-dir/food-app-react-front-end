@@ -166,6 +166,9 @@ const SectionPersonalize = () => {
   };
 
   const submitProd = () => {
+    if (customItems[0].name_prod.length < 2) {
+      return alert("Please enter a product  before");
+    }
     const cartProds = cart.cartItems;
     const prod = customItems[0];
     let validation = false;
