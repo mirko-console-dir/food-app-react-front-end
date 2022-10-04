@@ -1,4 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
+/* ascoltatre cambiamenti api purchase */
+import { setupListeners } from "@reduxjs/toolkit/dist/query";
+
 import counterReducer from "../features/counter/counterSlice";
 import cartReducer from "../features/cart/cartSlice";
 import modalCartReducer from "../features/modalCart/modalSlice";
@@ -17,5 +20,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }),
+    }).concat(purchasesApi.middleware), //accediamo al middleware
+  //middleware della api per ascolrtare i cambiamenti e faccia la subscibe alla store, accediamo al middleware e usare setupListeners
 });
+setupListeners(store.dispatch); //api ascolta cambiamenti della store

@@ -2,26 +2,26 @@
   "cartItems": [
     {
       "id": 1,
-      "name_prod": "Tuber",
+      "name_prod": "Test Product",
       "price": 3,
-      "image": "http://127.0.0.1:8000/storage/images/products/backgroundBase.png",
-      "description": "Strong Grain",
+      "image": "http://127.0.0.1:8000/storage/images/products/baseu.png",
+      "description": "test",
       "amount": 1,
-      "id_prod": 2,
+      "id_prod": 1,
       "ingredients": [
         {
           "id": 0,
-          "name_variant": "Salame",
-          "price": 4,
-          "image": "http://127.0.0.1:8000/storage/images/products/variants/salame.png",
-          "description": "Salame DOP",
+          "name_variant": "Basil",
+          "price": 2,
+          "image": "http://127.0.0.1:8000/storage/images/products/variants/basil.png",
+          "description": "bas",
           "amount": 1,
-          "total": 4,
-          "id_variant": 3
+          "total": 2,
+          "id_variant": 1
         }
       ],
       "amountIngredients": 1,
-      "total": 7,
+      "total": 5,
       "isLoading": true
     }
   ]

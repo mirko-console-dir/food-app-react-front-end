@@ -1,15 +1,40 @@
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import Navbar from "../navbars/Navbar";
 import CartContainer from "../cart/cartContainer";
 import ModalCart from "../modals/ModalCart";
 import Products from "../../features/products/Products";
 import { calculateTotals, getCartItems } from "../../features/cart/cartSlice";
 import cartItems from "../../cartItemsTest";
+/* order */
+import {
+  useGetPurchasesQuery,
+  useAddPurchaseMutation,
+} from "../../service/purchaseRTKservice";
+import Purchase from "../purchase";
+/* order */
+/* order */
+const About = () => {
+  /* order */
+  const orderEl = useRef("");
+  const {
+    data: purchases = [],
+    error,
+    isLoading: aliasNameLoading,
+    isFetching,
+    refetch: reloadPurchases, // alias inserito
+  } = useGetPurchasesQuery();
+  const [
+    addPurchase,
+    {
+      isLoading: isLoadingPurchase,
+      isSuccess: isSuccessPurchase,
+      error: purchaseError,
+      isError: isErrorPurchase,
+    },
+  ] = useAddPurchaseMutation();
 
-const About = ({ purchases }) => {
-  /* call purchses */
+  /* order */
   const dispatch = useDispatch();
   const [toggleForm, setToggleForm] = useState(false);
   const { isOpen } = useSelector((store) => store.modalCart);
@@ -24,6 +49,20 @@ const About = ({ purchases }) => {
     dispatch(getCartItems("random"));
   }, []);
 
+  const pur = {
+    fullname: "t",
+    email: "tttt",
+    phone: 212,
+    cart: "fas",
+    amount: 21,
+    delivery_street: "15 Bennet st",
+    delivery_town: "Bondi",
+    delivery_state: "NSW",
+    delivery_post_code: "2000",
+    note: "Nessuna in particular",
+    type: "delivery",
+  };
+
   if (isLoading) {
     return (
       <div className="loading">
@@ -32,19 +71,17 @@ const About = ({ purchases }) => {
     );
   }
 
-  /*   const url = "http://127.0.0.1:8000/api/products";
-  const [products, setProducts] = useState([]); */
-
-  /*  useEffect(() => {
-    fetch(url)
-      .then((res) => res.json())
-      .then((products) => {
-        setProducts(products);
-      });
-    return () => {};
-  }, []); */
   return (
     <>
+      <div className="">
+        {purchases?.map((purchase) => (
+          <Purchase purchase={purchase} key={purchase.id} />
+        ))}
+        {/* bind per passare alla funzione il parametro, null per il this */}
+        <button onClick={addPurchase.bind(null, pur)}>ad order</button>
+      </div>
+
+      {/* <Products products={products} /> */}
       <section id="section-1" className="section-1 ">
         {isOpen && <ModalCart />}
 
@@ -450,20 +487,6 @@ const About = ({ purchases }) => {
           </div>
         </div>
       </div>
-      <div className="">
-        {purchases?.map((purchase) => (
-          <div className="purchase" key={purchase.id}>
-            <p>{purchase.id}</p>
-            <p>{purchase.fullname}</p>
-            <p>{purchase.email}</p>
-            <p>{purchase.phone}</p>
-            <p>{purchase.cart_json}</p>
-            <p>{purchase.amount}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* <Products products={products} /> */}
     </>
   );
 };

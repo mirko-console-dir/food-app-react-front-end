@@ -44,3 +44,13 @@ You don't have to ever use `eject`. The curated feature set is suitable for smal
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+Hi and Welcome.
+How I used React redux and redux-toolkit in this project, some notes:
+
+Hook React to get product from project dashboard admin food-react-laravel:
+
+- product,variants -> hooks React
+- actions guest to custom product -> redux-toolkit
+- cart items -> thunkApi
+- place order in project food-react-laravel -> RTK-Query
